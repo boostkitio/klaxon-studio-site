@@ -15,14 +15,20 @@ export const metadata = {
 };
 
 import { HighlightSweep, HighlightWipe } from "@/components/ScrollHighlight";
-import { homeServices, workAll, sectors, clients } from "@/lib/content";
+import { homeServices, workAll, sectors } from "@/lib/content";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { CLIENT_LOGOS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { SanityImageSource } from "@sanity/image-url";
+
+type ClientLogo = { _id: string; name: string; logo: SanityImageSource; scale: number };
 
 const workFeatured = workAll[0];
 const workFeaturedB = workAll[1];
 const workRest = workAll.slice(2, 8);
-const clientsLoop = [...clients, ...clients];
-
-export default function Home() {
+export default async function Home() {
+  const clients = await sanityFetch<ClientLogo[]>({ query: CLIENT_LOGOS_QUERY, tags: ["clientLogo"] });
+  const clientsLoop = [...clients, ...clients];
   return (
     <main>
       {/* HERO */}
@@ -246,7 +252,7 @@ export default function Home() {
               // eslint-disable-next-line @next/next/no-img-element
               <span key={i} className="inline-flex items-center gap-[clamp(20px,2.6vw,34px)] whitespace-nowrap">
                 <img
-                  src={c.logo}
+                  src={urlFor(c.logo).height(76).url()}
                   alt={c.name}
                   style={{
                     height: "clamp(28px,3vw,38px)",

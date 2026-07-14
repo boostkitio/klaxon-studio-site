@@ -1,19 +1,66 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import type { PortableTextBlock } from "@portabletext/types";
 import ImageSlot from "@/components/ImageSlot";
-import { blogPosts } from "@/lib/content";
 import { ogFor } from "@/lib/site";
+import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { SanityImageSource } from "@sanity/image-url";
 
-export function generateStaticParams() {
-  return blogPosts.map((p) => ({ slug: p.slug }));
+type Post = {
+  _id: string;
+  title: string;
+  slug: string;
+  publishedAt: string;
+  author?: string;
+  metaDesc: string;
+  lead: string;
+  mainImage?: SanityImageSource;
+  body: PortableTextBlock[];
+};
+
+export async function generateStaticParams() {
+  const slugs = await client
+    .withConfig({ useCdn: false, stega: false })
+    .fetch<{ slug: string }[]>(
+      POST_SLUGS_QUERY,
+      {},
+      { token: process.env.SANITY_API_READ_TOKEN, perspective: "published" }
+    );
+  return slugs;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await client
+    .withConfig({ stega: false })
+    .fetch<Post | null>(POST_QUERY, { slug }, { token: process.env.SANITY_API_READ_TOKEN, perspective: "published" });
   if (!post) return {};
   return ogFor(post.title, post.metaDesc, `/blog/${post.slug}`);
 }
+
+const portableComponents: PortableTextComponents = {
+  block: {
+    h2: ({ children }) => (
+      <h2 className="font-display font-[var(--kx-dw,700)] text-[clamp(21px,2.4vw,30px)] leading-[1.12] tracking-[-0.025em] mt-[clamp(16px,2vw,24px)]">
+        {children}
+      </h2>
+    ),
+    normal: ({ children }) => (
+      <p className="text-[clamp(15px,1.5vw,17px)] leading-[1.68] text-[var(--text-secondary)]">{children}</p>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="list-disc pl-6 flex flex-col gap-3 text-[clamp(15px,1.5vw,17px)] leading-[1.68] text-[var(--text-secondary)]">
+        {children}
+      </ul>
+    ),
+  },
+};
 
 export default async function BlogPostPage({
   params,
@@ -21,7 +68,11 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await sanityFetch<Post | null>({
+    query: POST_QUERY,
+    params: { slug },
+    tags: [`post:${slug}`, "post"],
+  });
   if (!post) notFound();
 
   return (
@@ -43,7 +94,7 @@ export default async function BlogPostPage({
                 Loud Thinking
               </Link>
               <span className="block font-mono font-medium text-[11px] tracking-[0.14em] uppercase text-white/75 mb-[clamp(18px,2vw,24px)]">
-                The Klaxon team
+                {post.author || "The Klaxon team"}
               </span>
               <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[1.0] tracking-[-0.035em] text-white">
                 {post.title}
@@ -57,25 +108,16 @@ export default async function BlogPostPage({
 
         <div className="max-w-[820px] mx-auto mt-[clamp(40px,5vw,64px)] px-[clamp(20px,5vw,48px)]">
           <div className="relative w-full aspect-[21/9] min-h-[240px] overflow-hidden bg-[#1A1A1A]">
-            <ImageSlot src={post.img ? `/${post.img}` : undefined} alt={post.title} placeholder="Article image" />
+            <ImageSlot
+              src={post.mainImage ? urlFor(post.mainImage).width(1640).height(703).url() : undefined}
+              alt={post.title}
+              placeholder="Article image"
+            />
           </div>
         </div>
 
         <div className="max-w-[820px] mx-auto mt-[clamp(44px,5.5vw,72px)] px-[clamp(20px,5vw,48px)] flex flex-col gap-[clamp(20px,2.4vw,28px)]">
-          {post.blocks.map((b, i) =>
-            b.t === "h2" ? (
-              <h2
-                key={i}
-                className="font-display font-[var(--kx-dw,700)] text-[clamp(21px,2.4vw,30px)] leading-[1.12] tracking-[-0.025em] mt-[clamp(16px,2vw,24px)]"
-              >
-                {b.x}
-              </h2>
-            ) : (
-              <p key={i} className="text-[clamp(15px,1.5vw,17px)] leading-[1.68] text-[var(--text-secondary)]">
-                {b.x}
-              </p>
-            )
-          )}
+          <PortableText value={post.body} components={portableComponents} />
         </div>
 
         <div className="max-w-[820px] mx-auto mt-[clamp(48px,6vw,80px)] px-[clamp(20px,5vw,48px)]">

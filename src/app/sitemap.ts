@@ -1,8 +1,17 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
-import { workAll, services, contentTypes, blogPosts } from "@/lib/content";
+import { workAll, services, contentTypes } from "@/lib/content";
+import { client } from "@/sanity/lib/client";
+import { POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const blogPosts = await client
+    .withConfig({ useCdn: false, stega: false })
+    .fetch<{ slug: string }[]>(
+      POST_SLUGS_QUERY,
+      {},
+      { token: process.env.SANITY_API_READ_TOKEN, perspective: "published" }
+    );
   const staticPaths = [
     "",
     "/work",

@@ -1,11 +1,27 @@
 import Link from "next/link";
 import ImageSlot from "@/components/ImageSlot";
-import { blogPosts } from "@/lib/content";
 import { ogFor } from "@/lib/site";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { POSTS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { SanityImageSource } from "@sanity/image-url";
 
 export const metadata = ogFor("Blog", "Straight-talking articles on video production from the Klaxon Studio team: budgets, briefs, formats and how to get more from your content.", "/blog");
 
-export default function BlogIndexPage() {
+type PostCard = {
+  _id: string;
+  title: string;
+  slug: string;
+  publishedAt: string;
+  author?: string;
+  metaDesc: string;
+  lead: string;
+  mainImage?: SanityImageSource;
+};
+
+export default async function BlogIndexPage() {
+  const posts = await sanityFetch<PostCard[]>({ query: POSTS_QUERY, tags: ["post"] });
+
   return (
     <main>
       <section className="bg-[var(--brand)] text-white pt-[clamp(72px,9vw,128px)] pb-[clamp(40px,5vw,64px)]">
@@ -26,11 +42,15 @@ export default function BlogIndexPage() {
       <section className="pt-[clamp(28px,3.5vw,48px)] pb-[clamp(72px,10vw,120px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-[clamp(28px,3vw,44px)]">
-            {blogPosts.map((post) => (
-              <Link key={post.slug} href={post.href} className="group flex flex-col no-underline text-inherit">
+            {posts.map((post) => (
+              <Link key={post._id} href={`/blog/${post.slug}`} className="group flex flex-col no-underline text-inherit">
                 <div className="relative aspect-video overflow-hidden bg-[#1A1A1A] mb-[clamp(18px,2vw,24px)]">
                   <div className="absolute inset-0 transition-transform duration-400 group-hover:scale-[1.03]">
-                    <ImageSlot src={post.img ? `/${post.img}` : undefined} alt={post.title} placeholder="Article image" />
+                    <ImageSlot
+                      src={post.mainImage ? urlFor(post.mainImage).width(800).height(450).url() : undefined}
+                      alt={post.title}
+                      placeholder="Article image"
+                    />
                   </div>
                 </div>
                 <h2 className="font-display font-[var(--kx-dw,700)] text-[clamp(20px,1.95vw,25px)] leading-[1.1] tracking-[-0.02em] mb-3 text-[var(--text-primary)] group-hover:text-[var(--brand)] transition-colors">

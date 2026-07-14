@@ -58,7 +58,6 @@ hard-coded in `src/lib/content.ts`.
 
 ## 5. Client Items Still Outstanding
 
-- About page: studio/team photo + any missing founder portraits (ImageSlot placeholders show until then)
 - WhatsApp contact was removed (the build had a placeholder number, Ofcom's fictional 07700 900xxx range);
   add the real number back to `contactRows` / `footerCols` in `src/lib/content.ts` if the client wants it
 - Client sign-off on the Pricing page figures (£2,000 / £4,500 day-rate anchors and project bands)

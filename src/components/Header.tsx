@@ -83,7 +83,13 @@ export default function Header() {
             </Link>
           </div>
 
-          <Link href="/" className="justify-self-center flex items-center">
+          <Link
+            href="/"
+            className="justify-self-center flex items-center"
+            onClick={() => {
+              if (pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             <Logo variant="coral" height={64} className="h-[42px] w-auto lg:h-[64px]" />
           </Link>
 

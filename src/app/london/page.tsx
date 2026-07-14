@@ -4,6 +4,9 @@ import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
 import { HighlightSweep } from "@/components/ScrollHighlight";
 import { londonData } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("Video Production Company London", "Klaxon Studio is a video production company in Bermondsey, London, producing brand films, corporate video and social content across the city.", "/london");
 
 export default function LondonPage() {
   return (

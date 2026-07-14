@@ -35,8 +35,8 @@ export default function ProjectMedia({ project }: { project: Project }) {
           muted
           loop
           playsInline
-          preload="auto"
-          onLoadedData={(e) => {
+          preload="metadata"
+          onLoadedMetadata={(e) => {
             const v = e.currentTarget;
             if (v.paused) v.currentTime = 0.1;
           }}

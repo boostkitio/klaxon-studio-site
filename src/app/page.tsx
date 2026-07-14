@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ogFor } from "@/lib/site";
 import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import ArrowLink from "@/components/ui/ArrowLink";
@@ -6,6 +7,13 @@ import Tag from "@/components/ui/Tag";
 import Testimonials from "@/components/Testimonials";
 import ProjectMedia from "@/components/ProjectMedia";
 import ImageSlot from "@/components/ImageSlot";
+
+const HOME_TITLE = "Klaxon Studio | Video Production Company London";
+export const metadata = {
+  ...ogFor(HOME_TITLE, "Klaxon Studio is a full-service video production company in Bermondsey, London, making commercials, branded content, documentary, corporate, social and podcast film for brands that refuse to be ignored.", ""),
+  title: { absolute: HOME_TITLE },
+};
+
 import { HighlightSweep, HighlightWipe } from "@/components/ScrollHighlight";
 import { homeServices, workAll, sectors, clients } from "@/lib/content";
 

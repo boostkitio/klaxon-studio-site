@@ -1,6 +1,9 @@
 import Label from "@/components/ui/Label";
 import FaqAccordion from "@/components/FaqAccordion";
 import { faqsData } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("FAQs", "Answers to the questions we are asked most about video production: process, budgets, timelines, deliverables and working with Klaxon Studio.", "/faqs");
 
 export default function FaqsPage() {
   return (

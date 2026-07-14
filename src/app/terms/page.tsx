@@ -1,4 +1,7 @@
 import { termsData } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("Terms of Engagement", "Klaxon Studio terms of engagement: the terms under which we supply video production services.", "/terms");
 
 export default function TermsPage() {
   return (

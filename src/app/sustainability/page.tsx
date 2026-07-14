@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Label from "@/components/ui/Label";
 import { susData } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("Sustainability", "How Klaxon Studio approaches sustainable video production, from travel and energy through to waste and our environmental policy.", "/sustainability");
 
 export default function SustainabilityPage() {
   return (

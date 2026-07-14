@@ -1,6 +1,9 @@
 import Label from "@/components/ui/Label";
 import FaqAccordion from "@/components/FaqAccordion";
 import { pricingFaqItems } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("Pricing", "Honest guidance on video production pricing: day rates, typical project bands and what shapes the cost of a production.", "/pricing");
 
 const costDrivers = [
   { num: "01", title: "Crew size", desc: "A simple interview needs two people. A large commercial might need fifteen or more. Crew size is driven by the brief, and the right crew for the job is always the most efficient one. Under-crewing a shoot tends to cost a project more than the cost saving on the day." },

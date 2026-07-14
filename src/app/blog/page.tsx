@@ -1,6 +1,9 @@
 import Link from "next/link";
 import ImageSlot from "@/components/ImageSlot";
 import { blogPosts } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("Blog", "Straight-talking articles on video production from the Klaxon Studio team: budgets, briefs, formats and how to get more from your content.", "/blog");
 
 export default function BlogIndexPage() {
   return (

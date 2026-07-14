@@ -4,12 +4,20 @@ import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
 import { services, contentTypes } from "@/lib/content";
+import { ogFor } from "@/lib/site";
 
 const allServices = [...services, ...contentTypes];
 const kindFor = (slug: string) => (services.some((s) => s.slug === slug) ? "Production" : "Content");
 
 export function generateStaticParams() {
   return allServices.map((s) => ({ slug: s.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const svc = allServices.find((s) => s.slug === slug);
+  if (!svc) return {};
+  return ogFor(svc.title, svc.desc, `/services/${svc.slug}`);
 }
 
 export default async function ServiceDetailPage({

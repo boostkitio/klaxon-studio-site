@@ -2,9 +2,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageSlot from "@/components/ImageSlot";
 import { blogPosts } from "@/lib/content";
+import { ogFor } from "@/lib/site";
 
 export function generateStaticParams() {
   return blogPosts.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogPosts.find((p) => p.slug === slug);
+  if (!post) return {};
+  return ogFor(post.title, post.metaDesc, `/blog/${post.slug}`);
 }
 
 export default async function BlogPostPage({

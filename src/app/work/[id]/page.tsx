@@ -2,9 +2,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 import { workAll } from "@/lib/content";
+import { ogFor } from "@/lib/site";
 
 export function generateStaticParams() {
   return workAll.map((p) => ({ id: p.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const proj = workAll.find((p) => p.id === id);
+  if (!proj) return {};
+  return ogFor(`${proj.client}: ${proj.title}`, proj.lead, `/work/${proj.id}`);
 }
 
 export default async function ProjectDetailPage({

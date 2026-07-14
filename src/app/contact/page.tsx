@@ -5,14 +5,34 @@ import { Button } from "@/components/ui/Button";
 import { HighlightWipe } from "@/components/ScrollHighlight";
 import { contactRows } from "@/lib/content";
 
-export default function ContactPage() {
-  const [sent, setSent] = useState(false);
+type FormState = "idle" | "sending" | "sent" | "error";
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+export default function ContactPage() {
+  const [state, setState] = useState<FormState>("idle");
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // No backend is wired up yet — see the project README for how to
-    // connect this to an email service (e.g. Resend) via a server action.
-    setSent(true);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    setState("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name") ?? "",
+          email: fd.get("email") ?? "",
+          company: fd.get("company") ?? "",
+          brief: fd.get("brief") ?? "",
+          website: fd.get("website") ?? "",
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      form.reset();
+      setState("sent");
+    } catch {
+      setState("error");
+    }
   }
 
   return (
@@ -53,6 +73,7 @@ export default function ContactPage() {
                 </label>
                 <input
                   id="name"
+                  name="name"
                   type="text"
                   required
                   placeholder="Jane Smith"
@@ -65,6 +86,7 @@ export default function ContactPage() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   required
                   placeholder="jane@company.com"
@@ -78,6 +100,7 @@ export default function ContactPage() {
               </label>
               <input
                 id="company"
+                name="company"
                 type="text"
                 placeholder="Where you're from"
                 className="py-[11px] px-[2px] bg-transparent border-0 border-b border-[var(--border-subtle)] font-body text-[clamp(15px,1.5vw,17px)] text-[#1A1A1A] outline-none focus:border-[var(--brand)] transition-colors"
@@ -89,22 +112,33 @@ export default function ContactPage() {
               </label>
               <textarea
                 id="brief"
+                name="brief"
                 rows={4}
                 required
                 placeholder="Tell us what you've got in mind…"
                 className="py-[11px] px-[2px] bg-transparent border-0 border-b border-[var(--border-subtle)] font-body text-[clamp(15px,1.5vw,17px)] leading-[1.55] text-[#1A1A1A] outline-none focus:border-[var(--brand)] transition-colors resize-y"
               />
             </div>
+            {/* Honeypot — hidden from real users, catches naive bots */}
+            <div aria-hidden="true" className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden">
+              <label htmlFor="website">Website</label>
+              <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
             <div className="flex flex-wrap items-center gap-[18px] mt-1">
               <Button
                 type="submit"
                 variant="primary"
-                className="hover:!bg-[#1A1A1A] hover:!text-white hover:!border-[#1A1A1A]"
+                disabled={state === "sending" || state === "sent"}
+                className="hover:!bg-[#1A1A1A] hover:!text-white hover:!border-[#1A1A1A] disabled:opacity-60"
               >
-                {sent ? "Sent — thank you" : "Send it over"}
+                {state === "sending" ? "Sending…" : state === "sent" ? "Sent, thank you" : "Send it over"}
               </Button>
               <span className="font-mono font-medium text-[10px] tracking-[0.12em] uppercase text-[var(--text-muted)]">
-                Replies within one working day
+                {state === "error"
+                  ? "Something went wrong — please email us direct at hello@klaxon.studio"
+                  : state === "sent"
+                    ? "We'll reply within one working day"
+                    : "Replies within one working day"}
               </span>
             </div>
           </form>

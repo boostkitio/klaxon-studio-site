@@ -1,5 +1,8 @@
 import Label from "@/components/ui/Label";
 import { glossaryData } from "@/lib/content";
+import { ogFor } from "@/lib/site";
+
+export const metadata = ogFor("Video Production Glossary", "Video production terminology explained in plain English: the Klaxon Studio glossary.", "/glossary");
 
 export default function GlossaryPage() {
   return (

@@ -15,12 +15,15 @@ export async function POST(req: NextRequest) {
     if (!isValidSignature) {
       return new Response("Invalid signature", { status: 401 });
     }
-    if (!Array.isArray(body?.tags) || !body.tags.length) {
+    // clientLogo documents have no slug, so the webhook projection emits a
+    // null alongside the type tag — keep only real tag strings.
+    const tags = (body?.tags ?? []).filter((t): t is string => typeof t === "string" && t.length > 0);
+    if (!tags.length) {
       return new Response("Missing tags", { status: 400 });
     }
 
-    body.tags.forEach((tag) => revalidateTag(tag, "max"));
-    return NextResponse.json({ revalidated: body.tags });
+    tags.forEach((tag) => revalidateTag(tag, "max"));
+    return NextResponse.json({ revalidated: tags });
   } catch (err) {
     return new Response((err as Error).message, { status: 500 });
   }

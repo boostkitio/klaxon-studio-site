@@ -30,7 +30,24 @@ Once Resend shows the domain as verified, change `RESEND_FROM_EMAIL` on the Verc
 Note: these records are on the `send` / `resend._domainkey` subdomains, so they do not interfere
 with the client's existing mailbox MX records. Do not touch the root MX records.
 
-## 3. Post-Cutover Checks
+## 3. Sanity (Blog + Client Logos)
+
+The blog and homepage logo marquee are served from Sanity (project `nlulyy3d`, dataset
+`production` — the same project the old rebuild used, reseeded). Everything else stays
+hard-coded in `src/lib/content.ts`.
+
+- Studio: `/studio` on the deployed site (edit posts and logos there; Presentation tab gives
+  live preview)
+- Publishing a post or logo fires the "klaxon-studio-site revalidate" webhook
+  (Sanity manage > API > Webhooks) at `/api/revalidate`, which refreshes the static pages —
+  no redeploy needed
+- After the DNS cutover, update that webhook's URL from
+  `https://klaxon-studio-site-two.vercel.app/api/revalidate` to
+  `https://klaxon.studio/api/revalidate`
+- A pre-migration backup of the old dataset is at
+  `C:\dev\projects\_BACKUPS\sanity-nlulyy3d-production-2026-07-14.tar.gz`
+
+## 4. Post-Cutover Checks
 
 - Crawl the site and spot-check the 301s: `/about-us`, `/contact-us`, `/our-work/<slug>`,
   `/healthcare-video-production`, `/terms-conditions`, `/cookie-notice`, `/our-work-showreel`
@@ -39,7 +56,7 @@ with the client's existing mailbox MX records. Do not touch the root MX records.
 - Submit `https://klaxon.studio/sitemap.xml` in Google Search Console (property already exists for the domain)
 - Confirm Vercel Bot Protection is not challenging Googlebot (verified bots are exempt by default)
 
-## 4. Client Items Still Outstanding
+## 5. Client Items Still Outstanding
 
 - About page: studio/team photo + any missing founder portraits (ImageSlot placeholders show until then)
 - WhatsApp contact was removed (the build had a placeholder number, Ofcom's fictional 07700 900xxx range);
@@ -47,7 +64,7 @@ with the client's existing mailbox MX records. Do not touch the root MX records.
 - Client sign-off on the Pricing page figures (£2,000 / £4,500 day-rate anchors and project bands)
 - Client review of the Privacy Policy page (written fresh — the old WordPress one was unedited boilerplate)
 
-## 5. Retire the Old Infrastructure
+## 6. Retire the Old Infrastructure
 
 After a stable week: cancel the old WordPress hosting, and delete the `klxn` Vercel project +
 `boostkitio/klxn` repo if the previous rebuild is no longer wanted as reference.

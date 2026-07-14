@@ -1,0 +1,55 @@
+/* Klaxon Studio — Base / resets
+   ----------------------------------------------------------------
+   Light, opinionated reset. Sets the page surface, ink text, the
+   body type, sane defaults, and the coral text selection. Pulled in
+   last by styles.css. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* IMPORTANT: this file is imported as plain (unlayered) CSS, which per
+   the CSS cascade-layers spec beats ANY rule inside a Tailwind @layer
+   regardless of specificity. That means NONE of the element-selector
+   rules below may set `color`, `font-family`, `font-weight`,
+   `letter-spacing` or `line-height` — every heading/paragraph/button in
+   the app sets these per-instance via Tailwind utility classes
+   (text-*, font-*, leading-*, tracking-*), and a conflicting default
+   here would silently and invisibly defeat those classes everywhere,
+   no matter how specific the class. Only non-conflicting resets (margin,
+   box-sizing, display) belong in this file. */
+/* No default margin reset for h1-h6/p either: many instances set their
+   own margin utility (mt-, mb-, also a layered class) which would lose
+   to a blanket `margin:0` here for the same reason. Components that
+   truly want a zero margin default add `m-0` explicitly per instance. */
+
+a {
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+
+img, svg, video { display: block; max-width: 100%; }
+
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* Utility: the coral vertical "now playing" tick used on eyebrows */
+.kx-tick { position: relative; padding-left: 16px; }
+.kx-tick::before {
+  content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 1em; background: var(--brand);
+}

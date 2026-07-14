@@ -1,0 +1,36 @@
+/* Klaxon Studio — Motion
+   ----------------------------------------------------------------
+   Sharp & snappy. Fast fades and hard cuts — like an edit, not a
+   dissolve. No bounce, no spring, no long parallax. Hovers snap;
+   colour transitions are quick. Default to ease-out; keep durations
+   short. Respect prefers-reduced-motion. */
+
+:root {
+  --dur-instant: 80ms;  /* @kind other */
+  --dur-fast:    120ms; /* @kind other */
+  --dur-base:    160ms; /* @kind other */
+  --dur-slow:    240ms; /* @kind other */
+  --dur-slower:  360ms; /* @kind other */
+
+  /* Snappy ease-out (decelerate hard). */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-standard: cubic-bezier(0.3, 0, 0, 1);    /* @kind other */
+  --ease-in:       cubic-bezier(0.7, 0, 0.84, 0);  /* @kind other */
+  --ease-linear:   linear; /* @kind other */
+
+  /* Common reusable transitions */
+  --transition-colors: color var(--dur-fast) var(--ease-standard),
+                       background-color var(--dur-fast) var(--ease-standard),
+                       border-color var(--dur-fast) var(--ease-standard); /* @kind other */
+  --transition-transform: transform var(--dur-base) var(--ease-out); /* @kind other */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms; /* @kind other */
+    --dur-fast: 0ms;    /* @kind other */
+    --dur-base: 0ms;    /* @kind other */
+    --dur-slow: 0ms;    /* @kind other */
+    --dur-slower: 0ms;  /* @kind other */
+  }
+}

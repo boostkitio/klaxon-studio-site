@@ -1,0 +1,10 @@
+/* Klaxon Studio — Webfonts
+   ----------------------------------------------------------------
+   The brand uses two real typefaces, both open-source:
+     · Inter           — display + body (all headings and prose)
+     · JetBrains Mono  — accent / labels / UI ("the loud, technical voice")
+   Both are loaded from Google Fonts here rather than self-hosted binaries.
+   If you need offline/self-hosted woff2 files, drop them in /assets/fonts
+   and replace the @import below with @font-face rules pointing at them. */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");

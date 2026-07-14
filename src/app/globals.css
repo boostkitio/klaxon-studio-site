@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* These design-token stylesheets end up as plain (unlayered) CSS in the
+   build output — Turbopack doesn't honour `@import ... layer(...)` here.
+   Unlayered CSS beats any Tailwind @layer utility regardless of
+   specificity, so none of these token files may set `color` on a bare
+   element selector (h1-h6, a, body, etc) or it will silently defeat
+   `text-*` utility classes everywhere. See base.css for the fix. */
+@import "../styles/tokens/colors.css";
+@import "../styles/tokens/typography.css";
+@import "../styles/tokens/spacing.css";
+@import "../styles/tokens/radius.css";
+@import "../styles/tokens/motion.css";
+@import "../styles/tokens/elevation.css";
+@import "../styles/tokens/base.css";
+
+/* Fonts are loaded via next/font in layout.tsx (self-hosted, no external
+   request) rather than tokens/fonts.css's Google Fonts @import. These
+   overrides point the design-system's font variables at the ones
+   next/font generates. */
+:root {
+  --font-display: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Source theme defaults: accent=Coral, canvas=Warm Grey, headline=Impact.
+     --kx-dw is the display-heading font-weight driven by the "headline"
+     theme prop; Impact = 800. Every heading in the source markup reads
+     font-weight:var(--kx-dw,700) but relies on this being set to 800 by
+     the theme — without defining it here every heading silently falls
+     back to the fallback value (700) and reads visibly lighter/wrong. */
+  --kx-dw: 800;
+}
+
+html,
+body {
+  background: var(--kx-page, var(--surface-page));
+}
+
+/* Explicit @layer block (not @import ... layer(), which this bundler
+   doesn't honour) so these zero-margin defaults sit in Tailwind's "base"
+   layer and correctly lose to any margin utility class (mt-, mb-, m-0),
+   instead of silently winning as unlayered CSS would. */
+@layer base {
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+  }
+}
+
+/* Source behaviour: when a page's last section before the shared coral
+   CTA footer is an FAQ block (already carrying its own generous bottom
+   padding), the CTA's top padding collapses to 0 so the two sections
+   don't double up on space. Matches the `data-faq-end` mechanism. */
+.flex-1:has(> main > section[data-faq-end="1"]:last-child) + .cta-footer {
+  padding-top: 0 !important;
+}
+
+/* Contact page ends on its own "talk to us" section, so the shared
+   coral "Got something in mind" CTA would be redundant there — hide it
+   entirely rather than just collapsing its padding. */
+.flex-1:has(> main > section[data-hide-cta="1"]:last-child) + .cta-footer {
+  display: none;
+}
+
+@keyframes kx-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

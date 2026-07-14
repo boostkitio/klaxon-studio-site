@@ -1,0 +1,17 @@
+/* Klaxon Studio — Elevation
+   ----------------------------------------------------------------
+   The system is FLAT. Hierarchy comes from colour blocks, scale and
+   whitespace — not drop shadows. Shadows appear only on floating
+   overlays (menus, toasts, modals). Cards and media use borders or
+   solid fills, never a resting shadow. */
+
+:root {
+  --shadow-none: none;
+  --shadow-sm:   0 1px 2px rgba(26, 26, 26, 0.06);
+  --shadow-pop:  0 8px 24px rgba(26, 26, 26, 0.12);
+  --shadow-over: 0 16px 48px rgba(26, 26, 26, 0.18);
+
+  /* Focus ring — coral, offset, square (matches the brand's sharpness) */
+  --focus-ring: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--coral-500);
+  --focus-ring-on-dark: 0 0 0 2px var(--neutral-950), 0 0 0 4px var(--coral-400);
+}

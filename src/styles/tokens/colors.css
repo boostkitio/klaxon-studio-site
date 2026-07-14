@@ -1,0 +1,72 @@
+/* Klaxon Studio — Colour
+   ----------------------------------------------------------------
+   A loud coral on a calm, warm-neutral grey. Near-black ink.
+   Flat, high-contrast, no gradients. Coral is used with restraint —
+   it shouts because everything around it is quiet. */
+
+:root {
+  /* ---- Brand coral ramp -------------------------------------- */
+  --coral-50:  #FDEEEB;
+  --coral-100: #FBDCD7;
+  --coral-200: #F7B8AE;
+  --coral-300: #F58E80;
+  --coral-400: #F46E5D;
+  --coral-500: #F25244; /* ← brand primary (klxn coral) */
+  --coral-600: #DA3F30;
+  --coral-700: #BC3122;
+  --coral-800: #97271B;
+  --coral-900: #6E1C13;
+
+  /* ---- Warm neutral ramp (ink → off-white) ------------------- */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #F6F5F3;
+  --neutral-100: #ECEBE9; /* ← page surface (warm off-white) */
+  --neutral-150: #E5E3DF;
+  --neutral-200: #DDDAD4; /* placeholder / sunken blocks */
+  --neutral-300: #C9C6C0;
+  --neutral-400: #A8A49D;
+  --neutral-500: #8B8782; /* muted text */
+  --neutral-600: #6E6A65; /* secondary text */
+  --neutral-700: #4A4843;
+  --neutral-800: #2C2B29;
+  --neutral-900: #1F1E1C;
+  --neutral-950: #1A1A1A; /* ← ink (primary text) */
+
+  /* ---- Semantic: brand --------------------------------------- */
+  --brand:           var(--coral-500);
+  --brand-hover:     var(--coral-600);
+  --brand-active:    var(--coral-700);
+  --brand-tint:      var(--coral-50);
+  --brand-contrast:  #FFFFFF;
+
+  /* ---- Semantic: text ---------------------------------------- */
+  --text-primary:    var(--neutral-950);
+  --text-secondary:  var(--neutral-600);
+  --text-muted:      var(--neutral-500);
+  --text-brand:      var(--coral-500);
+  --text-on-brand:   #FFFFFF;
+  --text-on-dark:    var(--neutral-100);
+  --text-on-dark-muted: var(--neutral-400);
+
+  /* ---- Semantic: surfaces ------------------------------------ */
+  --surface-page:    var(--neutral-100);
+  --surface-card:    var(--neutral-0);
+  --surface-sunken:  var(--neutral-200);
+  --surface-inverse: var(--neutral-950);
+  --surface-brand:   var(--coral-500);
+
+  /* ---- Semantic: borders ------------------------------------- */
+  --border-subtle:   #D8D5CF;
+  --border-strong:   var(--neutral-950);
+  --border-brand:    var(--coral-500);
+  --border-on-dark:  rgba(255, 255, 255, 0.16);
+
+  /* ---- Status (used sparingly — brand stays coral) ----------- */
+  --success: #2F7D52;
+  --warning: #C8861B;
+  --danger:  var(--coral-700);
+
+  /* Selection */
+  --selection-bg: var(--coral-500);
+  --selection-fg: #FFFFFF;
+}

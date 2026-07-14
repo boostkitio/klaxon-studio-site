@@ -1,0 +1,62 @@
+import Image from "next/image";
+
+/**
+ * Mirrors the design system's "image-slot" placeholder convention: renders
+ * supplied imagery/video when we have it, otherwise the brand's own
+ * "IMAGE TO COME" mono placeholder rather than an empty box or mismatched
+ * stock photography.
+ */
+export default function ImageSlot({
+  src,
+  video,
+  alt = "",
+  className = "",
+  placeholder = "Image to come",
+  objectPosition,
+}: {
+  src?: string;
+  video?: string;
+  alt?: string;
+  className?: string;
+  placeholder?: string;
+  /** CSS object-position, e.g. "center 20%" — useful for portraits where
+   * the subject's face sits in the upper part of a tall source photo
+   * being cropped into a wider box. Defaults to center. */
+  objectPosition?: string;
+}) {
+  if (video) {
+    return (
+      <video
+        src={video}
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload="auto"
+        className={`absolute inset-0 w-full h-full object-cover ${className}`}
+        style={objectPosition ? { objectPosition } : undefined}
+      />
+    );
+  }
+
+  if (src) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="100vw"
+        className={`object-cover ${className}`}
+        style={objectPosition ? { objectPosition } : undefined}
+      />
+    );
+  }
+
+  return (
+    <div className={`absolute inset-0 w-full h-full bg-[#1A1A1A] flex items-center justify-center ${className}`}>
+      <span className="font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-white/40">
+        {placeholder}
+      </span>
+    </div>
+  );
+}

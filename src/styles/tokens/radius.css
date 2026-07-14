@@ -1,0 +1,20 @@
+/* Klaxon Studio — Radius
+   ----------------------------------------------------------------
+   The brand is SHARP. Corners are square by default — buttons,
+   cards, images, media all sit at 0. The only rounding in the
+   system is the full pill used for the active-nav outline and the
+   organic blob of the wordmark itself. Resist rounding. */
+
+:root {
+  --radius-none: 0;
+  --radius-xs:   2px;   /* hairline softening only when truly needed */
+  --radius-sm:   4px;
+  --radius-pill: 999px; /* nav active state, status dots, chips-as-pills */
+  --radius-full: 50%;
+
+  /* Default for surfaces/components */
+  --radius-card:   var(--radius-none);
+  --radius-button: var(--radius-none);
+  --radius-input:  var(--radius-none);
+  --radius-media:  var(--radius-none);
+}

@@ -1,0 +1,31 @@
+/* Klaxon Studio — Spacing & layout
+   ----------------------------------------------------------------
+   4px base grid. Generous whitespace; sections breathe.
+   Layout is a wide, edge-aware grid — content sits in a 1280 max
+   container with a hard left rail, big section padding. */
+
+:root {
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;
+  --space-40:  160px;
+
+  /* ---- Layout ----------------------------------------------- */
+  --container-max:  1280px;
+  --gutter:         24px;     /* mobile / small */
+  --gutter-lg:      48px;     /* desktop edge gutters */
+  --section-y:      96px;     /* vertical rhythm between sections */
+  --section-y-lg:   128px;
+  --grid-gap:       24px;
+}

@@ -37,7 +37,7 @@ export default function Footer() {
                   rel="noopener"
                   className="block mt-[4px] text-[13px] leading-[1.6] text-white/60 max-w-[30ch] hover:text-[var(--brand)] transition-colors"
                 >
-                  Unit 408, Cocoa Studio, 100 Drummond Road, London SE16 4FA
+                  Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA
                 </a>
               </div>
               <div className="mt-[14px]">

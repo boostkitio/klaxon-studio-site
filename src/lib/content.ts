@@ -653,7 +653,7 @@ export const testimonials: Testimonial[] = [
 export const contactRows: ContactRow[] = [
       { label: "Email", value: "hello@klaxon.studio", href: "mailto:hello@klaxon.studio", target: "_self" },
       { label: "Phone", value: "+44 (0) 208 0580 669", href: "tel:+442080580669", target: "_self" },
-      { label: "Studio", value: "Unit 408, Cocoa Studio, 100 Drummond Road, London SE16 4FA", href: "https://maps.google.com/?cid=14804452344662294871", target: "_blank" },
+      { label: "Studio", value: "Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA", href: "https://maps.google.com/?cid=14804452344662294871", target: "_blank" },
       { label: "Social", value: "@klaxonstudiouk", href: "https://instagram.com/klaxonstudiouk", target: "_blank" },
 ];
 

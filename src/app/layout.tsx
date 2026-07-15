@@ -59,7 +59,7 @@ const LOCAL_BUSINESS_JSONLD = {
   image: `${SITE_URL}/images/og-image.jpg`,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Unit 408, Cocoa Studio, 100 Drummond Road",
+    streetAddress: "Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road",
     addressLocality: "London",
     postalCode: "SE16 4FA",
     addressCountry: "GB",

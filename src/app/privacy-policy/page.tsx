@@ -10,7 +10,7 @@ const sections: { heading: string; items: string[] }[] = [
   {
     heading: "Who we are",
     items: [
-      "Klaxon Studio is a video production company based at Cocoa Studio, 100 Drummond Road, London SE16 4FA. Our website address is https://klaxon.studio. If you have any questions about this policy or how we handle your data, email us at hello@klaxon.studio.",
+      "Klaxon Studio is a video production company based at Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA. Our website address is https://klaxon.studio. If you have any questions about this policy or how we handle your data, email us at hello@klaxon.studio.",
     ],
   },
   {

@@ -45,6 +45,38 @@ export const metadata: Metadata = {
   },
 };
 
+// Ties the site to the Klaxon Studio Google Business Profile (hasMap CID)
+// so search engines treat them as one entity.
+const LOCAL_BUSINESS_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${SITE_URL}/#business`,
+  name: "Klaxon Studio",
+  description: DESCRIPTION,
+  url: SITE_URL,
+  telephone: "+44 20 8058 0669",
+  email: "hello@klaxon.studio",
+  image: `${SITE_URL}/images/og-image.jpg`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Unit 408, Cocoa Studio, 100 Drummond Road",
+    addressLocality: "London",
+    postalCode: "SE16 4FA",
+    addressCountry: "GB",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 51.4943706,
+    longitude: -0.0617451,
+  },
+  hasMap: "https://maps.google.com/?cid=14804452344662294871",
+  sameAs: [
+    "https://instagram.com/klaxonstudiouk",
+    "https://www.linkedin.com/company/klaxon-studio",
+  ],
+  areaServed: ["London", "South East England", "United Kingdom"],
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -54,6 +86,10 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSONLD) }}
+        />
         <ScrollToTop />
         <Header />
         <div className="flex-1">{children}</div>

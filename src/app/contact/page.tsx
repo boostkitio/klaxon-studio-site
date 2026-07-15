@@ -214,9 +214,9 @@ export default function ContactPage() {
             <div className="flex-[3] min-w-[300px] relative min-h-[clamp(280px,38vh,420px)] bg-[#1A1A1A] border border-white/25">
               <iframe
                 title="Klaxon Studio, Cocoa Studio, London SE16"
-                src="https://maps.google.com/maps?q=Cocoa%20Studio,%20100%20Drummond%20Road,%20London%20SE16%204FA&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2484.0270769598383!2d-0.061745100000000004!3d51.494370599999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48760391cb13d0cd%3A0xcd73faf859cb8157!2sKlaxon%20Studio!5e0!3m2!1sen!2suk!4v1784115628675!5m2!1sen!2suk"
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+                referrerPolicy="strict-origin-when-cross-origin"
                 className="absolute inset-0 w-full h-full border-0 block"
               />
             </div>

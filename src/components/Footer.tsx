@@ -32,7 +32,7 @@ export default function Footer() {
                   Address
                 </span>
                 <a
-                  href="https://maps.google.com/?q=Cocoa+Studio,+100+Drummond+Road,+London+SE16+4FA"
+                  href="https://maps.google.com/?cid=14804452344662294871"
                   target="_blank"
                   rel="noopener"
                   className="block mt-[4px] text-[13px] leading-[1.6] text-white/60 max-w-[30ch] hover:text-[var(--brand)] transition-colors"

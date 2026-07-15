@@ -3,9 +3,11 @@
 The new site is live on Vercel (project `klaxon-studio-site`, boostkit team). This is everything
 left to do to point klaxon.studio at it and retire the old WordPress site.
 
-## 1. DNS Cutover
+## 1. DNS Cutover — done 2026-07-15
 
-Everything is pre-staged (verified 2026-07-15). The one remaining step is at the registrar:
+Cutover completed: nameservers changed at 123-reg ~08:50, registry delegation propagated by
+09:51, and klaxon.studio now serves the new site from Vercel with a valid cert (www 308s to the
+apex, Gmail MX/SPF/DKIM/DMARC confirmed resolving via public DNS). Historical detail below.
 
 - Registrar: Mesh Digital Limited (the 123-reg / Domainmonster / GoDaddy UK group). Log in there
   and change the nameservers from `ns1.siteground.net` / `ns2.siteground.net` to
@@ -58,14 +60,23 @@ hard-coded in `src/lib/content.ts`.
 - A pre-migration backup of the old dataset is at
   `C:\dev\projects\_BACKUPS\sanity-nlulyy3d-production-2026-07-14.tar.gz`
 
-## 4. Post-Cutover Checks
+## 4. Post-Cutover Checks (run 2026-07-15)
 
-- Crawl the site and spot-check the 301s: `/about-us`, `/contact-us`, `/our-work/<slug>`,
+- Done: legacy redirects spot-checked on the live domain (`/about-us`, `/contact-us`,
   `/healthcare-video-production`, `/terms-conditions`, `/cookie-notice`, `/our-work-showreel`
-- Submit the contact form on the live domain and confirm the email arrives at hello@klaxon.studio
-- Verify OG tags on / and a work page with curl (og:image must resolve at https://klaxon.studio/images/og-image.jpg)
-- Submit `https://klaxon.studio/sitemap.xml` in Google Search Console (property already exists for the domain)
-- Confirm Vercel Bot Protection is not challenging Googlebot (verified bots are exempt by default)
+  all 308 to the right pages)
+- Done: contact form submitted on the live domain (Resend accepted, id
+  8b3c953e-...) — confirm it arrived in the hello@klaxon.studio inbox
+- Done: OG tags verified with curl on / and /work; og:image resolves (200, image/jpeg)
+- Done: Sanity revalidation webhook URL switched to `https://klaxon.studio/api/revalidate`
+- Outstanding: Resend domain verification (records live in DNS; press "Verify DNS Records" at
+  resend.com/domains or wait for the auto-recheck), then set `RESEND_FROM_EMAIL` to
+  `Klaxon Studio <hello@klaxon.studio>` and redeploy
+- Outstanding: GSC — `sc-domain:klaxon.studio` added under matt@boostkit.io but unverified;
+  get the google-site-verification TXT token from GSC and add it to the Vercel DNS zone, then
+  submit the sitemap. (Google will find the sitemap via robots.txt regardless; the client's own
+  GSC access survives via their carried-over verification TXT.)
+- Vercel Bot Protection exempts verified bots (Googlebot) by default — nothing to do
 
 ## 5. Client Items Still Outstanding
 

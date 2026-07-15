@@ -69,13 +69,13 @@ hard-coded in `src/lib/content.ts`.
   8b3c953e-...) — confirm it arrived in the hello@klaxon.studio inbox
 - Done: OG tags verified with curl on / and /work; og:image resolves (200, image/jpeg)
 - Done: Sanity revalidation webhook URL switched to `https://klaxon.studio/api/revalidate`
-- Outstanding: Resend domain verification (records live in DNS; press "Verify DNS Records" at
-  resend.com/domains or wait for the auto-recheck), then set `RESEND_FROM_EMAIL` to
-  `Klaxon Studio <hello@klaxon.studio>` and redeploy
-- Outstanding: GSC — `sc-domain:klaxon.studio` added under matt@boostkit.io but unverified;
-  get the google-site-verification TXT token from GSC and add it to the Vercel DNS zone, then
-  submit the sitemap. (Google will find the sitemap via robots.txt regardless; the client's own
-  GSC access survives via their carried-over verification TXT.)
+- Done: Resend verified klaxon.studio (Jul 15 2:25 PM); `RESEND_FROM_EMAIL` is now
+  `Klaxon Studio <hello@klaxon.studio>` in all three environments and the form was re-tested
+  end-to-end on the live domain. (Resend's "Provider: SiteGround" label is a cosmetic stamp
+  from when the domain was added pre-cutover; verification ran against the Vercel nameservers.)
+- Done: GSC — `sc-domain:klaxon.studio` verified under matt@boostkit.io (TXT in Vercel DNS),
+  sitemap.xml processed (75 URLs, 0 errors), old WordPress sitemap_index.xml removed from GSC
+  and 301-redirected to /sitemap.xml.
 - Vercel Bot Protection exempts verified bots (Googlebot) by default — nothing to do
 
 ## 5. Client Items Still Outstanding

@@ -26,7 +26,7 @@ pass — SiteGround is still the live DNS host until then.
 ## 2. Resend Domain Verification (Contact Form From-Address)
 
 The contact form currently sends from `klaxon@boostform.app` (verified interim domain) to
-`studio@klaxon.studio`. The `klaxon.studio` domain has been registered in Resend (eu-west-1) and is
+`hello@klaxon.studio`. The `klaxon.studio` domain has been registered in Resend (eu-west-1) and is
 waiting for these DNS records — add them during the DNS work:
 
 | Record | Type | Name | Value |
@@ -36,7 +36,7 @@ waiting for these DNS records — add them during the DNS work:
 | SPF | TXT | `send` | `v=spf1 include:amazonses.com ~all` |
 
 Once Resend shows the domain as verified, change `RESEND_FROM_EMAIL` on the Vercel project to
-`Klaxon Studio <studio@klaxon.studio>` (production, preview, development) and redeploy.
+`Klaxon Studio <hello@klaxon.studio>` (production, preview, development) and redeploy.
 
 Note: these records are on the `send` / `resend._domainkey` subdomains, so they do not interfere
 with the client's existing mailbox MX records. Do not touch the root MX records.
@@ -62,7 +62,7 @@ hard-coded in `src/lib/content.ts`.
 
 - Crawl the site and spot-check the 301s: `/about-us`, `/contact-us`, `/our-work/<slug>`,
   `/healthcare-video-production`, `/terms-conditions`, `/cookie-notice`, `/our-work-showreel`
-- Submit the contact form on the live domain and confirm the email arrives at studio@klaxon.studio
+- Submit the contact form on the live domain and confirm the email arrives at hello@klaxon.studio
 - Verify OG tags on / and a work page with curl (og:image must resolve at https://klaxon.studio/images/og-image.jpg)
 - Submit `https://klaxon.studio/sitemap.xml` in Google Search Console (property already exists for the domain)
 - Confirm Vercel Bot Protection is not challenging Googlebot (verified bots are exempt by default)

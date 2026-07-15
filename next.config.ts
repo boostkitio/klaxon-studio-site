@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // Old WordPress page URLs
+      { source: "/sitemap_index.xml", destination: "/sitemap.xml", permanent: true },
       { source: "/about-us", destination: "/about", permanent: true },
       { source: "/contact-us", destination: "/contact", permanent: true },
       { source: "/our-work-showreel", destination: "/work", permanent: true },

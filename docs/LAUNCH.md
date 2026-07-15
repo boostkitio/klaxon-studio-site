@@ -5,12 +5,23 @@ left to do to point klaxon.studio at it and retire the old WordPress site.
 
 ## 1. DNS Cutover
 
-Add klaxon.studio as the production domain on the Vercel project, with www redirecting to the apex.
-Take the exact DNS records from the Vercel dashboard (Project > Settings > Domains) at the time of
-cutover — do not use values from memory.
+Everything is pre-staged (verified 2026-07-15). The one remaining step is at the registrar:
 
-Before flipping, confirm where the domain's DNS is hosted and get access (currently points at the
-old WordPress host).
+- Registrar: Mesh Digital Limited (the 123-reg / Domainmonster / GoDaddy UK group). Log in there
+  and change the nameservers from `ns1.siteground.net` / `ns2.siteground.net` to
+  `ns1.vercel-dns.com` / `ns2.vercel-dns.com`.
+- klaxon.studio (apex, production) and www (308 redirect to apex) are already attached to the
+  Vercel project and verified.
+- The full Vercel DNS zone is already staged (`vercel dns ls klaxon.studio`): all 5 Google
+  Workspace MX records, Google SPF, `google._domainkey` DKIM, `_dmarc`, the
+  google-site-verification TXT, the three Resend records from section 2, and the existing
+  `prompts.klaxon.studio` subdomain (A 35.214.26.191 plus its SPF/DKIM). Apex/www/wildcard ALIAS
+  and CAA records are Vercel-managed defaults.
+- Gmail keeps working through the switch: the staged MX/SPF/DKIM/DMARC match what SiteGround
+  serves today, so mail follows whichever nameservers answer during propagation.
+
+Do not cancel SiteGround until the nameserver change has propagated and the checks in section 4
+pass — SiteGround is still the live DNS host until then.
 
 ## 2. Resend Domain Verification (Contact Form From-Address)
 

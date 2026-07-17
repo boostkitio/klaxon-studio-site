@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { SITE_URL, OG_BASE } from "@/lib/site";
@@ -95,6 +96,7 @@ export default async function RootLayout({
         <div className="flex-1">{children}</div>
         <Footer />
         <Analytics />
+        <GoogleAnalytics gaId="G-T15XQVQSZG" />
         {/* Keep the preview machinery draft-mode-only so the public
             site stays fully static and the read token never ships to visitors. */}
         {isDraftMode && (

@@ -664,10 +664,16 @@ export const footerCols: FooterCol[] = [
     { label: "Work", href: "/work" },
     { label: "Services", href: "/services" },
     { label: "About", href: "/about" },
+    { label: "London", href: "/london" },
     { label: "Pricing", href: "/pricing" },
     { label: "Contact", href: "/contact" },
+  ] },
+  { title: "Resources", links: [
+    { label: "FAQs", href: "/faqs" },
+    { label: "Glossary", href: "/glossary" },
+    { label: "Sustainability", href: "/sustainability" },
     { label: "T&C's", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
   ] },
   { title: "Services", links: [
     { label: "Ideation & Creative", href: "/services/ideation" },

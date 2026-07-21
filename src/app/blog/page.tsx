@@ -50,6 +50,7 @@ export default async function BlogIndexPage() {
                       src={post.mainImage ? urlFor(post.mainImage).width(800).height(450).url() : undefined}
                       alt={post.title}
                       placeholder="Article image"
+                      sizes="(min-width: 640px) 33vw, 100vw"
                     />
                   </div>
                 </div>

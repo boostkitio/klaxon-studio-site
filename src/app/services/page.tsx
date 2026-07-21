@@ -43,7 +43,7 @@ function ServiceTileGrid({ items, trailingTile }: { items: ServiceDetail[]; trai
       href={s.href}
       className="group relative aspect-square overflow-hidden bg-[#1A1A1A] block"
     >
-      <ImageSlot src={`/${s.img}`} alt={s.title} objectPosition={s.imgPosition} />
+      <ImageSlot src={`/${s.img}`} alt={s.title} objectPosition={s.imgPosition} sizes="(min-width: 768px) 25vw, 50vw" />
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/74 to-black/12 pointer-events-none" />
       <div className="absolute inset-0 z-[2] bg-[var(--brand)] opacity-0 group-hover:opacity-86 transition-opacity duration-200 pointer-events-none" />
       <div className="absolute inset-0 z-[3] p-[clamp(13px,1.5vw,17px)] flex flex-col justify-end text-left">

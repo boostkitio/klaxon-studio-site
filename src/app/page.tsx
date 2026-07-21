@@ -122,7 +122,7 @@ export default async function Home() {
                   href={s.href}
                   className="group relative overflow-hidden bg-[#1A1A1A] p-[clamp(22px,2.6vw,30px)] min-h-[200px] lg:min-h-0 flex flex-col justify-between gap-[18px] cursor-pointer transition-transform duration-200 hover:scale-[1.045] hover:z-10"
                 >
-                  <ImageSlot src={`/${s.img}`} alt={s.title} />
+                  <ImageSlot src={`/${s.img}`} alt={s.title} sizes="(min-width: 1024px) 30vw, 50vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/15 z-[2]" />
                   <div className="absolute inset-0 bg-[var(--brand)] opacity-0 group-hover:opacity-90 transition-opacity duration-200 z-[3]" />
                   <span className="relative z-10 font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-[var(--brand)] group-hover:text-white transition-colors">

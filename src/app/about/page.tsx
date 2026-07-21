@@ -43,6 +43,7 @@ export default function AboutPage() {
                 alt="The four Klaxon Studio founders"
                 placeholder="Drop a studio / team photo"
                 objectPosition="center 25%"
+                sizes="(min-width: 680px) 50vw, 100vw"
               />
             </div>
           </div>
@@ -149,6 +150,7 @@ export default function AboutPage() {
                     alt={f.name}
                     placeholder="Portrait to come"
                     objectPosition={`center ${(isOpen ? f.imgPositionY : f.imgPositionYDesktop) ?? "20%"}`}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
                   />
                   {!isOpen ? (
                     <>

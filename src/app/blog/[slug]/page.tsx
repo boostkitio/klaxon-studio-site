@@ -112,6 +112,7 @@ export default async function BlogPostPage({
               src={post.mainImage ? urlFor(post.mainImage).width(1640).height(703).url() : undefined}
               alt={post.title}
               placeholder="Article image"
+              sizes="(min-width: 880px) 820px, 100vw"
             />
           </div>
         </div>

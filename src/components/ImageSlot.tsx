@@ -13,6 +13,7 @@ export default function ImageSlot({
   className = "",
   placeholder = "Image to come",
   objectPosition,
+  sizes = "100vw",
 }: {
   src?: string;
   video?: string;
@@ -23,6 +24,11 @@ export default function ImageSlot({
    * the subject's face sits in the upper part of a tall source photo
    * being cropped into a wider box. Defaults to center. */
   objectPosition?: string;
+  /** Rendered display width for next/image's srcset selection. Grid tiles
+   * must pass their real fraction of the viewport ("(min-width: 768px) 25vw,
+   * 50vw") — leaving the 100vw default makes desktop browsers download
+   * images several times larger than the box they fill. */
+  sizes?: string;
 }) {
   if (video) {
     return (
@@ -45,7 +51,7 @@ export default function ImageSlot({
         src={src}
         alt={alt}
         fill
-        sizes="100vw"
+        sizes={sizes}
         className={`object-cover ${className}`}
         style={objectPosition ? { objectPosition } : undefined}
       />

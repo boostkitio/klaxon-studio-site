@@ -48,7 +48,7 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-col gap-[22px] text-[clamp(13px,1.26vw,14px)] leading-[1.62] text-[var(--text-secondary)]">
             <p className="font-display font-[var(--kx-dw,700)] text-[clamp(20px,2.16vw,27px)] leading-[1.18] tracking-[-0.02em] text-[var(--text-primary)]">
-              Klaxon didn&apos;t come out of nowhere<span className="text-[var(--brand)]">.</span>
+              Klaxon Studio didn&apos;t start from zero<span className="text-[var(--brand)]">.</span>
             </p>
             <p>
               Charlie and Jake had been building Punch Media for years, shooting commercials, documentaries,
@@ -88,7 +88,7 @@ export default function AboutPage() {
                     className="w-full relative overflow-hidden bg-[#1A1A1A] block text-left border-0 p-0 cursor-pointer transition-[aspect-ratio] duration-300 ease-[cubic-bezier(.16,1,.3,1)]"
                     style={{ aspectRatio: isOpen ? "4 / 5" : "4 / 3" }}
                   >
-                    <ImageSlot src={`/${f.img}`} alt={f.name} placeholder="Portrait to come" objectPosition="center 20%" />
+                    <ImageSlot src={`/${f.img}`} alt={f.name} placeholder="Portrait to come" objectPosition={`center ${f.imgPositionY ?? "20%"}`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/74 to-black/4 pointer-events-none" />
                     <div className="absolute left-0 right-0 bottom-0 p-[18px]">
                       <span className="block font-display font-bold text-[21px] leading-none tracking-[-0.02em] text-white">
@@ -138,7 +138,18 @@ export default function AboutPage() {
                   className="group relative overflow-hidden min-w-0 bg-[#1A1A1A] cursor-pointer"
                   style={{ boxShadow: "1px 0 0 var(--kx-page,#ECEBE9)" }}
                 >
-                  <ImageSlot src={`/${f.img}`} alt={f.name} placeholder="Portrait to come" objectPosition="center 20%" />
+                  {/* Expanding a tile changes its own box from tall-and-narrow to
+                      short-and-wide (4fr vs 1fr of the row), which is a completely
+                      different crop shape — imgPositionYDesktop is calibrated for the
+                      closed shape, imgPositionY for the open one. Using the closed
+                      value here while open is why it used to land on the center of
+                      the photo instead of the face. */}
+                  <ImageSlot
+                    src={`/${f.img}`}
+                    alt={f.name}
+                    placeholder="Portrait to come"
+                    objectPosition={`center ${(isOpen ? f.imgPositionY : f.imgPositionYDesktop) ?? "20%"}`}
+                  />
                   {!isOpen ? (
                     <>
                       <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-black/74 to-black/4" />
@@ -172,6 +183,16 @@ export default function AboutPage() {
                       </div>
                     </>
                   )}
+                  <span
+                    aria-label={isOpen ? `Close ${f.name}'s bio` : `Open ${f.name}'s bio`}
+                    className="absolute top-[16px] right-[16px] z-[4] inline-flex items-center justify-center w-[30px] h-[30px] bg-white/10 text-white transition-transform duration-200 pointer-events-none"
+                    style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="square">
+                      <path d="M12 4v16" />
+                      <path d="M4 12h16" />
+                    </svg>
+                  </span>
                 </div>
               );
             })}

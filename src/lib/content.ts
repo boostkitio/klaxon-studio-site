@@ -40,6 +40,9 @@ export interface ServiceDetail {
   title: string;
   desc: string;
   img: string;
+  /** CSS object-position for the tile thumbnail — overrides the default
+   * center crop when the subject sits off-centre in the source frame. */
+  imgPosition?: string;
   lead: string;
   body: string[];
   includes: string[];
@@ -52,6 +55,20 @@ export interface Founder {
   role: string;
   bio: string[];
   img: string;
+  /** CSS object-position Y for the mobile stacked card (aspect 4/3 closed)
+   * and for the open panel on the desktop 4-up row (see about/page.tsx —
+   * that panel is a ~0.7/1 overlay, not a grid track, and happens to need a
+   * very similar crop to the mobile card). Source portraits frame each
+   * founder's head at a different height, so a single shared crop gives
+   * inconsistent headroom. Overrides "20%" default. */
+  imgPositionY?: string;
+  /** CSS object-position Y for a closed column in the desktop 4-up row
+   * (fixed at 25% of the row width, aspect 0.625/1 — those 4 columns never
+   * resize, see about/page.tsx). The desktop box crops far less of the
+   * source than the mobile card does, so it needs its own (much more
+   * extreme) Y value to land the head at the same relative headroom —
+   * reusing imgPositionY undercrops it. */
+  imgPositionYDesktop?: string;
 }
 
 export interface Testimonial {
@@ -365,7 +382,7 @@ export const services: ServiceDetail[] = [
           { q: "Can you match the grade across multiple videos in a series?", a: "Yes. Consistency across a content series is something we take seriously. We create and retain LUTs and reference grades for ongoing projects, ensuring every new piece of content in a series matches the established visual identity." },
           { q: "Do you grade for specific platforms - broadcast, social, digital?", a: "Yes, and this is an important distinction. Different platforms have different colour space and technical requirements. We ensure every graded master is correctly specified for its intended delivery format, whether that's broadcast, online or social media." },
         ] },
-      { img: "uploads/IMG_2087.webp", slug: "sound-design", href: "/services/sound-design", num: "08", title: "Sound Design", desc: "Audio that immerses, moves and translates across every platform.",
+      { img: "uploads/IMG_2087-rotated.webp", imgPosition: "center 96%", slug: "sound-design", href: "/services/sound-design", num: "08", title: "Sound Design", desc: "Audio that immerses, moves and translates across every platform.",
         lead: "Close your eyes during a great film and it still works. That's not an accident, it's sound design.",
         body: [
           "Audio is the most underestimated element of video production. Audiences will tolerate imperfect visuals far longer than they'll tolerate imperfect sound. Yet for many productions, sound is treated as an afterthought, something to be fixed in post rather than crafted with intention. The results speak for themselves, and not in a good way.",
@@ -409,7 +426,7 @@ export const services: ServiceDetail[] = [
           { q: "Can you scale up quickly to handle multiple projects at once?", a: "Yes. One of the key advantages of working with us as a white label partner is access to our wider network of trusted crew and post-production resource. We're not limited by a fixed in-house headcount and can scale our capacity to match your pipeline." },
           { q: "Do you work on a project-by-project basis or offer retainer arrangements?", a: "Both. We're happy to work on individual projects as needed, or to agree retainer arrangements for agencies with an ongoing requirement for production support. Retainer arrangements can offer useful benefits in terms of resource planning and prioritisation." },
         ] },
-      { img: "uploads/IMG_7933-a31cdb8b.webp", slug: "uk-production-services", href: "/services/uk-production-services", num: "11", title: "UK Production Services", desc: "Local crew, local knowledge, seamless delivery for international productions.",
+      { img: "uploads/IMG_7933-a31cdb8b.webp", imgPosition: "25% center", slug: "uk-production-services", href: "/services/uk-production-services", num: "11", title: "UK Production Services", desc: "Local crew, local knowledge, seamless delivery for international productions.",
         lead: "Filming in the UK? We'll make sure you hit the ground running.",
         body: [
           "Bringing a production into an unfamiliar country is a logistical challenge even before a camera rolls. Navigating local regulations, sourcing the right crew, finding locations, managing permits, it all takes local knowledge, established relationships and the kind of on-the-ground expertise that can only come from years of working in the market. That's exactly what we offer.",
@@ -461,7 +478,7 @@ export const contentTypes: ServiceDetail[] = [
           { q: "How do you measure the success of branded content?", a: "Success metrics vary depending on the objectives of the campaign. They might include views and completion rates, engagement (shares, comments, saves), brand sentiment shifts, direct traffic or conversion data. We work with clients at the outset to agree what success looks like and ensure the content is built to deliver against those specific measures." },
           { q: "Do you handle distribution as well as production?", a: "Production is our core focus, but we can point clients in the right direction when it comes to distribution and activation. We have a network of trusted partners we're happy to recommend for clients who need end-to-end support beyond the production itself" },
         ] },
-      { slug: "corporate-video", href: "/services/corporate-video", num: "02", title: "Corporate Video", desc: "Professional, purposeful films that say as much about you as your message does.", img: "uploads/vlcsnap-2025-12-01-10h35m19s188-b999ec69.webp",
+      { slug: "corporate-video", href: "/services/corporate-video", num: "02", title: "Corporate Video", desc: "Professional, purposeful films that say as much about you as your message does.", img: "uploads/vlcsnap-2025-12-01-10h35m19s188-b999ec69.webp", imgPosition: "78% 35%",
         lead: "Corporate video has a reputation problem. Too often it's stiff, forgettable and made to satisfy an internal brief rather than engage an actual human being. We do it differently.",
         body: [
           "The truth is, corporate video is one of the most powerful communication tools a business has, when it's made with genuine craft and a clear sense of purpose. Whether you're communicating a strategic vision to your workforce, onboarding new employees, explaining a complex proposition to potential clients or showcasing your culture to the talent market, the quality of the film you put out says as much about your organisation as the message it contains.",
@@ -490,7 +507,7 @@ export const contentTypes: ServiceDetail[] = [
           { q: "How do we ensure the video lands with a sophisticated B2B audience?", a: "By starting with a clear, honest understanding of what that audience actually cares about - not what your internal stakeholders want to say, but what your prospects and clients need to hear. The best B2B video is built around genuine audience insight, not internal messaging priorities. That's a distinction we push hard on during briefing." },
           { q: "Can video help us with account-based marketing?", a: "Absolutely. Highly targeted, personalised video content is one of the most effective tools in an ABM programme. Whether it's bespoke films for specific target accounts or a suite of content tailored to particular sectors or buyer types, we can help you build a video strategy that supports your ABM objectives." },
         ] },
-      { slug: "documentary", href: "/services/documentary", num: "04", title: "Documentary", desc: "Real stories, told with depth, craft and the space they deserve.", img: "uploads/vlcsnap-2022-08-11-14h35m07s966-b6cd9118.webp",
+      { slug: "documentary", href: "/services/documentary", num: "04", title: "Documentary", desc: "Real stories, told with depth, craft and the space they deserve.", img: "uploads/vlcsnap-2022-08-11-14h35m07s966-b6cd9118.webp", imgPosition: "78% 35%",
         lead: "Some stories are too rich, too complex and too important to be told in sixty seconds. Documentary is where you give them the space they deserve.",
         body: [
           "Documentary filmmaking is at the heart of what we do at Klaxon, and it's where we feel most at home. There's a particular kind of skill involved in finding the truth of a story, earning the trust of the people at the centre of it, and shaping the material into something that holds an audience from beginning to end. It's a discipline that rewards patience, curiosity and a genuine commitment to the craft.",
@@ -504,7 +521,7 @@ export const contentTypes: ServiceDetail[] = [
           { q: "How do you approach gaining access and building trust with contributors?", a: "Carefully and honestly. Contributors need to understand what they're agreeing to, how the material will be used, and that they can trust the people filming them. We take time to build those relationships before filming begins, and we maintain them throughout the process. The quality of what appears on screen is directly proportional to the quality of the trust we've established." },
           { q: "What's the typical length for a brand documentary?", a: "Brand documentaries typically run between five and fifteen minutes, though the right length is always determined by the story rather than a pre-set format. We'd rather make a tight, compelling eight-minute film than pad a story to twenty minutes for the sake of it. For broadcaster or streaming contexts, we'd work to whatever format specifications apply." },
         ] },
-      { slug: "product", href: "/services/product", num: "05", title: "Product", desc: "Your product, looking extraordinary. Because in a crowded market, extraordinary sells.", img: "uploads/vlcsnap-2024-06-10-16h08m14s922-527136a3.webp",
+      { slug: "product", href: "/services/product", num: "05", title: "Product", desc: "Your product, looking extraordinary. Because in a crowded market, extraordinary sells.", img: "uploads/vlcsnap-2024-06-10-16h08m14s922-527136a3.webp", imgPosition: "68% 55%",
         lead: "A great product video doesn't just show what something does. It makes people want to own it.",
         body: [
           "There's a deceptively fine line between a product film that converts and one that simply informs. The difference lies in how the product is presented, the way it's lit, the way it moves, the angles chosen to reveal its best qualities, and the narrative built around it that connects its features to the desires of the person watching. Get those things right and a product video becomes one of the hardest-working assets in your entire marketing toolkit.",
@@ -518,7 +535,7 @@ export const contentTypes: ServiceDetail[] = [
           { q: "Can you produce both hero films and cutdown social assets from the same shoot?", a: "Absolutely, and we'd always recommend planning for this from the outset. Capturing the additional material needed for social cutdowns while you already have everything set up is significantly more cost-effective than returning for a separate shoot. We factor this into the production plan from day one." },
           { q: "Do you have studio space for product filming?", a: "We work with a range of studio spaces in London and can recommend facilities suited to your specific product and production requirements. We'll advise on the best option based on the scale of your shoot and the visual style you're aiming for." },
         ] },
-      { slug: "sport", href: "/services/sport", num: "06", title: "Sport", desc: "Fast, raw and emotionally charged. Content that captures what makes sport worth watching.", img: "uploads/vlcsnap-2024-06-11-15h53m44s510-b8acf4f5.webp",
+      { slug: "sport", href: "/services/sport", num: "06", title: "Sport", desc: "Fast, raw and emotionally charged. Content that captures what makes sport worth watching.", img: "uploads/vlcsnap-2024-06-11-15h53m44s510-b8acf4f5.webp", imgPosition: "84% 30%",
         lead: "Sport is raw, unpredictable and emotionally charged. Capturing it properly demands filmmakers who can keep up, technically, creatively and physically.",
         body: [
           "There's a reason sport produces some of the most compelling content in the world. The drama is real, the emotions are genuine, and the moments are unrepeatable. But that same spontaneity makes it one of the most demanding environments to film in. The margins are tight, the action is fast, and you rarely get a second chance at the shot that defines the story. Experience matters enormously here.",
@@ -532,7 +549,7 @@ export const contentTypes: ServiceDetail[] = [
           { q: "Do you produce event coverage as well as pre-produced content?", a: "Yes. Alongside pre-produced athlete profiles, brand campaigns and documentary content, we cover live sporting events - capturing the action, the atmosphere and the moments that make great sports content. We're comfortable working in fast-paced event environments where you rarely get a second chance at the shot." },
           { q: "Can you work with amateur and grassroots sport as well as elite level?", a: "Absolutely. Some of the most compelling sports content we've produced has been at grassroots level, where the emotional stories are often more accessible and the production logistics more straightforward. The same standards of craft apply regardless of the level." },
         ] },
-      { slug: "health-sector", href: "/services/health-sector", num: "07", title: "Health Sector", desc: "Sensitive, accurate and compelling content for complex healthcare communications.", img: "uploads/vlcsnap-2024-06-13-15h25m53s540-79506618.webp",
+      { slug: "health-sector", href: "/services/health-sector", num: "07", title: "Health Sector", desc: "Sensitive, accurate and compelling content for complex healthcare communications.", img: "uploads/vlcsnap-2024-06-13-15h25m53s540-79506618.webp", imgPosition: "88% 58%",
         lead: "Healthcare is one of the most important communication challenges there is. The stakes are real, the audiences are diverse, and the need to get the message right is absolute.",
         body: [
           "Video has transformed the way health organisations communicate, with patients, with professionals, with policymakers and with the public. Done well, it simplifies complex information, builds trust in sensitive situations, and reaches people in ways that written content simply cannot. Done poorly, it risks undermining the very credibility it was meant to establish. At Klaxon, we understand the particular responsibilities that come with working in the health sector. We're experienced in navigating the compliance considerations, the ethical sensitivities and the approval processes that are part and parcel of producing content in this space. We work collaboratively with clinical, marketing and communications teams to ensure that every film is not only compelling to watch but accurate, appropriate and fully signed off.",
@@ -590,7 +607,7 @@ export const contentTypes: ServiceDetail[] = [
           { q: "Can you help with the script as well as the production?", a: "Yes, in fact, the script is where we'd always start. A great explainer video is built on a great script. We work with you to develop messaging that is clear, accurate and engaging before we touch any visual elements. Getting the words right first makes everything that follows significantly more straightforward." },
           { q: "How much does an explainer video cost?", a: "Costs vary depending on the format, length and complexity. A straightforward animated explainer typically starts from around £3,000 to £5,000. A fully produced live action explainer with multiple locations and on-screen talent would be more. We provide detailed quotes for every project and will always recommend the most cost-effective approach to achieve your objectives." },
         ] },
-      { slug: "automotive", href: "/services/automotive", num: "11", title: "Automotive", desc: "Car reviews, launch films and manufacturer content built by people who know cars.", img: "uploads/vlcsnap-2022-07-09-13h14m40s020-ff1d4201.webp",
+      { slug: "automotive", href: "/services/automotive", num: "11", title: "Automotive", desc: "Car reviews, launch films and manufacturer content built by people who know cars.", img: "uploads/vlcsnap-2022-07-09-13h14m40s020-ff1d4201.webp", imgPosition: "67% 60%",
         lead: "Automotive content lives or dies on craft. Get the camera work, the locations and the pace right, and a car review or launch film becomes something people genuinely want to watch.",
         body: [
           "Cars are one of the most demanding things to film well. The angles that make a vehicle look fast standing still, the choreography of a car-to-car shoot at speed, the light that makes paintwork sing, none of it happens by accident. It takes riggers who know how to mount a camera safely at 70mph, drivers who can hold a precise line for take after take, and an edit that understands rhythm as much as it understands horsepower.",
@@ -610,23 +627,23 @@ export const contentTypes: ServiceDetail[] = [
 // ── Founders ──
 
 export const founders: Founder[] = [
-      { id: "kx-f-charlie", name: "Charlie", role: "Co-Founder · Producer / Director", img: "uploads/founder_charlie.webp", bio: [
+      { id: "kx-f-charlie", name: "Charlie", role: "Co-Founder · Producer / Director", img: "uploads/founder_charlie.webp", imgPositionY: "9%", imgPositionYDesktop: "0%", bio: [
         "Charlie has been behind the camera since 2009. In that time he's shot TV commercials, cinematic sport, and pretty much everything in between. He's filmed in 23 countries in a single year, survived 48°C desert heat with no water on the border of Saudi Arabia, nearly stepped on a landmine in Croatia, and somehow still considers a highlight to be shooting at an industrial estate in Slough.",
         "These days Charlie is a filmmaker in the truest sense of the word. He takes the brief, shapes the creative and plans all things pre-production before moving onto the shoot as a DP and makes sure the finished film does exactly what it's supposed to. Start to finish, the whole thing.",
         "Outside of work he's a devoted Arsenal fan who plays football three days a week. It's unclear whether this is a passion or a coping mechanism. He owes his entire career to a teacher at school who pointed him towards the media industry. Mr Hawxwell has a lot to answer for.",
       ] },
-      { id: "kx-f-jake", name: "Jake", role: "Co-Founder · Director of Photography", img: "uploads/founder_jake.webp", bio: [
+      { id: "kx-f-jake", name: "Jake", role: "Co-Founder · Director of Photography", img: "uploads/founder_jake.webp", imgPositionY: "18%", imgPositionYDesktop: "76%", bio: [
         "Jake has been professionally pointing cameras at things since 2009. Originally from Dirranbandi, a town of 400 people in the middle of the Australian bush, he moved to London for two years about ten years ago. He's still here.",
         "Before co-founding Klaxon, Jake spent over a decade as a freelance DP, getting paid to carry expensive cameras to places most people only see on TV. National Geographic, Discovery, ITV, Food Network. Chopper rides through the New Zealand wilderness, dog sledding in Iceland, street food markets in Bangkok.",
         "At Klaxon, Jake is the workhorse. He takes the long shoots, the far-flung locations, and somehow keeps every piece of kit in perfect working order when he gets back. That's a lot of air miles and a lot of questionable hotels.",
         "Outside of work you'll find him sipping a flat white in Victoria Park or cycling the canals with Pops, the world's most well-travelled studio dog.",
       ] },
-      { id: "kx-f-matt", name: "Matt", role: "Co-Founder · Director", img: "uploads/founder_matt.webp", bio: [
+      { id: "kx-f-matt", name: "Matt", role: "Co-Founder · Director", img: "uploads/founder_matt.webp", imgPositionY: "25%", imgPositionYDesktop: "100%", bio: [
         "Matt has been shooting and directing across the world for over a decade. He's filmed in food markets in Hanoi, the restricted nuclear zone in Fukushima, and convinced celebrities to play tennis at the Royal Albert Hall. Starting out as a Camera Operator, he made the natural move into directing, producing and creative development, giving him an overview of the entire production process that very few people in the industry can match.",
         "At Klaxon, Matt works alongside Charlie on pitches and creative strategy. He has an exceptional ability to cut through the waffle, get straight to the point, and make sure every project delivers what the client actually needs. On shoots, Matt puts the creative to good use and directs crew, talent and clients(!) to ensure the final rushes meet the idea.",
         "Outside of work Matt is a devoted Arsenal fan, an F1 obsessive, a BigJet TV evangelist (yes it is cool, apparently), and a man who describes himself as a runner despite all available evidence suggesting otherwise. He also holds extremely strong opinions on the correct way to make a cup of tea. Non-negotiable. The rest of the office is always wrong and he will not be taking questions.",
       ] },
-      { id: "kx-f-james", name: "James", role: "Co-Founder · Post-Production Lead", img: "uploads/founder_james.webp", bio: [
+      { id: "kx-f-james", name: "James", role: "Co-Founder · Post-Production Lead", img: "uploads/founder_james.webp", imgPositionY: "21%", imgPositionYDesktop: "100%", bio: [
         "James is the man in the dark room. Originally from a post-production background, he has worked across TV, online campaigns, branded content and commercials and has spent the best part of his career making other people's footage look considerably better than it has any right to.",
         "At Klaxon, James is the backbone of every project. Post-production, workflow, tech, podcast production. If it happens after the shoot, it goes through James. The others would be completely lost without him, though you'll rarely hear them admit it.",
         "Outside of work James can be found sipping a cold pint in a beer garden, cooking ambitious dishes at home, or going for a hike to justify the previous two. He is also a Chelsea fan, which means he endures a level of daily mockery from Charlie and Matt that would break a lesser man. He takes it with dignity. His revenge is coming. Someday.",

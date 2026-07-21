@@ -25,10 +25,10 @@ function useHighlightProgress(trigger: "page" | "element") {
       const vh = window.innerHeight || 800;
       if (trigger === "page") {
         const y = window.scrollY || window.pageYOffset || 0;
-        setProgress(clamp01(y / (vh * 0.15)));
+        setProgress(clamp01(y / (vh * 0.08)));
       } else if (ref.current) {
         const rect = ref.current.getBoundingClientRect();
-        setProgress(clamp01((vh * 0.72 - rect.top) / (vh * 0.32)));
+        setProgress(clamp01((vh * 0.92 - rect.top) / (vh * 0.42)));
       }
       raf = requestAnimationFrame(tick);
     };

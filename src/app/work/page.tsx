@@ -19,9 +19,9 @@ export default function WorkPage() {
             <Label tone="on-brand">Selected work</Label>
           </div>
           <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[0.98] tracking-[-0.04em] text-white">
-            A selection of the{" "}
+            Films{" "}
             <HighlightWipe from="#fff" to="var(--brand)" trigger="page">
-              good stuff.
+              worth watching.
             </HighlightWipe>
           </h1>
         </div>
@@ -51,7 +51,7 @@ export default function WorkPage() {
 
       <section className="pt-[clamp(36px,4.5vw,56px)] pb-[clamp(72px,10vw,120px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-          <div className="grid gap-[clamp(16px,2vw,28px)]" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(320px,1fr))" }}>
+          <div className="grid gap-[clamp(8px,1vw,14px)]" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(380px,1fr))" }}>
             {filtered.map((p) => (
               <Link key={p.id} href={p.href} className="group relative aspect-video overflow-hidden bg-[#1A1A1A] cursor-pointer">
                 <ProjectMedia project={p} />

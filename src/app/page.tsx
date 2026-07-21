@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import { ogFor } from "@/lib/site";
 import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
@@ -32,7 +33,7 @@ export default async function Home() {
   return (
     <main>
       {/* HERO */}
-      <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[84px] flex items-end overflow-hidden">
+      <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
         <video
           src="/uploads/klaxon-studio-home-loop-video-production.mp4"
           autoPlay
@@ -44,7 +45,7 @@ export default async function Home() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(180deg, rgba(26,26,26,0.1) 0%, rgba(26,26,26,0.04) 45%, rgba(26,26,26,0.65) 100%)",
+            background: "linear-gradient(180deg, rgba(26,26,26,0.1) 0%, rgba(26,26,26,0.04) 45%, rgba(26,26,26,0.65) 88%, rgba(26,26,26,1) 100%)",
           }}
         />
         <div className="relative max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] pt-[clamp(40px,7vw,96px)] pb-[clamp(40px,7vw,96px)] w-full">
@@ -76,17 +77,27 @@ export default async function Home() {
             </ButtonLink>
           </div>
         </div>
+        <a
+          href="#showreel"
+          aria-label="Scroll to showreel"
+          className="absolute left-1/2 bottom-[clamp(18px,2.4vw,28px)] -translate-x-1/2 z-10 text-white/70 hover:text-white transition-colors animate-bounce"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 4v15" />
+            <path d="M5 12l7 7 7-7" />
+          </svg>
+        </a>
       </section>
 
       {/* SHOWREEL */}
       <section id="showreel" className="bg-[#1A1A1A] text-white py-[clamp(52px,7vw,96px)] scroll-mt-[84px]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-          <div className="relative aspect-video overflow-hidden bg-black">
+          <div className="relative overflow-hidden bg-black" style={{ paddingTop: "41.67%" }}>
             <iframe
-              src="https://player.vimeo.com/video/1208364199?h=c08e30fd3a&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+              src="https://player.vimeo.com/video/1208364199?h=c08e30fd3a&badge=0&autopause=0&player_id=0&app_id=58479"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
-              title="Klaxon Showreel"
+              title="Klaxon-Showreel-Master-24-LR"
               className="absolute inset-0 w-full h-full border-none"
             />
             <span className="absolute left-[clamp(16px,2.4vw,28px)] top-[clamp(16px,2.4vw,28px)] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
@@ -95,6 +106,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
 
       {/* SERVICES SPLIT */}
       <section className="pt-[clamp(48px,7vw,96px)] pb-[clamp(72px,10vw,128px)]">
@@ -249,22 +261,20 @@ export default async function Home() {
         <div className="mt-[clamp(48px,6vw,80px)] bg-[var(--brand)] py-[clamp(26px,3.4vw,34px)] overflow-hidden">
           <div className="flex w-max items-center gap-[clamp(20px,2.6vw,34px)]" style={{ animation: "kx-marquee 64s linear infinite" }}>
             {clientsLoop.map((c, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <span key={i} className="inline-flex items-center gap-[clamp(20px,2.6vw,34px)] whitespace-nowrap">
+              <span key={i} className="inline-flex items-center whitespace-nowrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={urlFor(c.logo).height(76).url()}
                   alt={c.name}
                   style={{
-                    height: "clamp(28px,3vw,38px)",
+                    height: `calc(clamp(28px,3vw,38px) * ${c.scale})`,
                     width: "auto",
-                    maxWidth: "clamp(120px,13vw,168px)",
+                    maxWidth: `calc(clamp(120px,13vw,168px) * ${c.scale})`,
                     objectFit: "contain",
                     filter: "brightness(0) invert(1)",
                     opacity: 0.92,
-                    transform: `scale(${c.scale})`,
                   }}
                 />
-                <span className="w-[6px] h-[6px] bg-white/50 flex-none" />
               </span>
             ))}
           </div>

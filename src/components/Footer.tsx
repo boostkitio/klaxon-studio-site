@@ -23,8 +23,8 @@ export default function Footer() {
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="grid gap-[clamp(32px,4vw,56px)] pb-[clamp(40px,5vw,64px)] border-b border-white/16" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
             <div className="min-w-[180px]">
-              <Logo variant="white" height={26} />
-              <p className="mt-[18px] text-[13px] leading-[1.6] text-white/60 max-w-[30ch]">
+              <Logo variant="white" height={40} />
+              <p className="mt-[18px] text-[14px] leading-[1.6] text-white/70 max-w-[30ch]">
                 Video production that demands attention. Bermondsey, London.
               </p>
               <div className="mt-[14px]">
@@ -35,7 +35,7 @@ export default function Footer() {
                   href="https://maps.google.com/?cid=14804452344662294871"
                   target="_blank"
                   rel="noopener"
-                  className="block mt-[4px] text-[13px] leading-[1.6] text-white/60 max-w-[30ch] hover:text-[var(--brand)] transition-colors"
+                  className="block mt-[4px] text-[14px] leading-[1.6] text-white/70 max-w-[30ch] hover:text-[var(--brand)] transition-colors"
                 >
                   Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA
                 </a>
@@ -46,7 +46,7 @@ export default function Footer() {
                 </span>
                 <a
                   href="mailto:hello@klaxon.studio"
-                  className="block mt-[4px] text-[13px] leading-[1.6] text-white/60 max-w-[30ch] hover:text-[var(--brand)] transition-colors"
+                  className="block mt-[4px] text-[14px] leading-[1.6] text-white/70 max-w-[30ch] hover:text-[var(--brand)] transition-colors"
                 >
                   hello@klaxon.studio
                 </a>
@@ -64,7 +64,7 @@ export default function Footer() {
                       href={link.href}
                       target={link.target}
                       rel={link.target === "_blank" ? "noopener" : undefined}
-                      className="text-[14px] text-white/82 hover:text-[var(--brand)] transition-colors"
+                      className="text-[14px] text-white/70 hover:text-[var(--brand)] transition-colors"
                     >
                       {link.label}
                     </Link>

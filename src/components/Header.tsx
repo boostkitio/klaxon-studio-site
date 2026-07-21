@@ -10,7 +10,7 @@ const pill = "px-[7px] py-[3px]";
 
 export default function Header() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "/london";
   const [scrolled, setScrolled] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);

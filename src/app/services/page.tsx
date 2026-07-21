@@ -6,7 +6,33 @@ import Label from "@/components/ui/Label";
 import ImageSlot from "@/components/ImageSlot";
 import { services, contentTypes, type ServiceDetail } from "@/lib/content";
 
-function ServiceTileGrid({ items }: { items: ServiceDetail[] }) {
+function CtaTile({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className="group relative aspect-square overflow-hidden bg-[var(--brand)] flex flex-col justify-end p-[clamp(13px,1.5vw,17px)]"
+    >
+      <span className="font-display font-bold text-[clamp(18px,1.9vw,23px)] leading-[1.15] tracking-[-0.025em] text-white">
+        {label}
+      </span>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="square"
+        className="absolute top-[clamp(13px,1.5vw,17px)] right-[clamp(13px,1.5vw,17px)] text-white transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
+      >
+        <path d="M7 17L17 7" />
+        <path d="M8 7h9v9" />
+      </svg>
+    </Link>
+  );
+}
+
+function ServiceTileGrid({ items, trailingTile }: { items: ServiceDetail[]; trailingTile?: React.ReactNode }) {
   const [expanded, setExpanded] = useState(false);
   const first = items.slice(0, 4);
   const extra = items.slice(4);
@@ -17,7 +43,7 @@ function ServiceTileGrid({ items }: { items: ServiceDetail[] }) {
       href={s.href}
       className="group relative aspect-square overflow-hidden bg-[#1A1A1A] block"
     >
-      <ImageSlot src={`/${s.img}`} alt={s.title} />
+      <ImageSlot src={`/${s.img}`} alt={s.title} objectPosition={s.imgPosition} />
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/74 to-black/12 pointer-events-none" />
       <div className="absolute inset-0 z-[2] bg-[var(--brand)] opacity-0 group-hover:opacity-86 transition-opacity duration-200 pointer-events-none" />
       <div className="absolute inset-0 z-[3] p-[clamp(13px,1.5vw,17px)] flex flex-col justify-end text-left">
@@ -49,6 +75,7 @@ function ServiceTileGrid({ items }: { items: ServiceDetail[] }) {
                 {extra.map((s) => (
                   <Tile key={s.slug} s={s} />
                 ))}
+                {trailingTile}
               </div>
             </div>
           </div>
@@ -117,7 +144,7 @@ export default function ServicesPage() {
           <h2 className="font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-muted)] m-0">
             Content
           </h2>
-          <ServiceTileGrid items={contentTypes} />
+          <ServiceTileGrid items={contentTypes} trailingTile={<CtaTile href="/work" label="See all our work" />} />
         </div>
       </section>
     </main>

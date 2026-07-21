@@ -8,35 +8,69 @@ const themes = [
   { bg: "#1A1A1A", text: "#FFFFFF", sub: "rgba(255,255,255,0.55)", ctrl: "#FFFFFF", ctrlIdle: "rgba(255,255,255,0.3)" },
 ];
 
+const count = testimonials.length;
+// A clone of the last slide up front and the first slide at the end lets the
+// track keep sliding in one direction past the real ends; once the transition
+// lands on a clone we snap (transition-free) to the matching real slide, so
+// the loop reads as continuous instead of rubber-banding back to slide 0.
+const slides = [testimonials[count - 1], ...testimonials, testimonials[0]];
+
 export default function Testimonials() {
-  const [index, setIndex] = useState(0);
-  const count = testimonials.length;
+  const [index, setIndex] = useState(1);
+  const [animate, setAnimate] = useState(true);
+  const realIndex = ((index - 1) % count + count) % count;
+  const theme = themes[realIndex % themes.length];
 
   useEffect(() => {
-    const timer = setInterval(() => setIndex((i) => (i + 1) % count), 5500);
+    const timer = setInterval(() => {
+      setAnimate(true);
+      setIndex((i) => i + 1);
+    }, 5500);
     return () => clearInterval(timer);
-  }, [count]);
+  }, []);
 
-  const goto = (i: number) => setIndex(((i % count) + count) % count);
-  const theme = themes[index % themes.length];
+  useEffect(() => {
+    if (index >= 1 && index <= count) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setIndex(((index - 1) % count + count) % count + 1);
+    }, 520);
+    return () => clearTimeout(t);
+  }, [index]);
+
+  useEffect(() => {
+    if (animate) return;
+    const raf = requestAnimationFrame(() => setAnimate(true));
+    return () => cancelAnimationFrame(raf);
+  }, [animate]);
+
+  const step = (delta: number) => {
+    setAnimate(true);
+    setIndex((i) => i + delta);
+  };
+  const goto = (i: number) => {
+    setAnimate(true);
+    setIndex(i + 1);
+  };
 
   return (
     <section className="relative overflow-hidden">
       <div
-        className="flex w-full transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]"
+        className={`flex w-full ${animate ? "transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]" : ""}`}
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
-        {testimonials.map((t, i) => {
-          const th = themes[i % themes.length];
+        {slides.map((t, i) => {
+          const realI = ((i - 1) % count + count) % count;
+          const th = themes[realI % themes.length];
           return (
             <div
               key={i}
-              className="flex-none w-full box-border pt-[clamp(48px,8vw,112px)] px-[clamp(20px,5vw,48px)] pb-[clamp(72px,11vw,148px)]"
+              className="flex-none w-full box-border pt-[clamp(36px,5.5vw,72px)] px-[clamp(20px,5vw,48px)] pb-[clamp(52px,7.5vw,96px)]"
               style={{ background: th.bg }}
             >
               <div className="max-w-[1080px] mx-auto">
                 <span
-                  className="inline-flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase mb-[clamp(32px,4vw,52px)]"
+                  className="inline-flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase mb-[clamp(22px,2.8vw,36px)]"
                   style={{ color: th.sub }}
                 >
                   <span className="w-[4px] h-[1em]" style={{ background: th.text }} />
@@ -48,7 +82,7 @@ export default function Testimonials() {
                 >
                   {t.quote}
                 </p>
-                <div className="flex flex-col gap-[5px] mt-[clamp(36px,4.5vw,60px)]">
+                <div className="flex flex-col gap-[5px] mt-[clamp(26px,3.2vw,42px)]">
                   <span className="font-mono font-medium text-[11px] tracking-[0.12em] uppercase" style={{ color: th.text }}>
                     {t.name}
                   </span>
@@ -69,7 +103,7 @@ export default function Testimonials() {
         <div className="flex gap-[10px]">
           <button
             aria-label="Previous review"
-            onClick={() => goto(index - 1)}
+            onClick={() => step(-1)}
             className="w-[46px] h-[46px] inline-flex items-center justify-center border cursor-pointer transition-colors"
             style={{ borderColor: theme.ctrlIdle, color: theme.ctrl }}
           >
@@ -80,7 +114,7 @@ export default function Testimonials() {
           </button>
           <button
             aria-label="Next review"
-            onClick={() => goto(index + 1)}
+            onClick={() => step(1)}
             className="w-[46px] h-[46px] inline-flex items-center justify-center border cursor-pointer transition-colors"
             style={{ borderColor: theme.ctrlIdle, color: theme.ctrl }}
           >
@@ -98,8 +132,8 @@ export default function Testimonials() {
               onClick={() => goto(i)}
               className="h-[7px] p-0 border-0 cursor-pointer transition-all duration-200"
               style={{
-                width: i === index ? 28 : 7,
-                background: i === index ? theme.ctrl : theme.ctrlIdle,
+                width: i === realIndex ? 28 : 7,
+                background: i === realIndex ? theme.ctrl : theme.ctrlIdle,
               }}
             />
           ))}

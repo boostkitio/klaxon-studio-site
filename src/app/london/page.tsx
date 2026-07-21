@@ -13,7 +13,7 @@ export default function LondonPage() {
     <main>
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(560px,82vh,820px)] -mt-[85px] flex items-end overflow-hidden">
         <video
-          src="/uploads/London-Landing-Loop_2_1.mp4"
+          src="https://stream.mux.com/PN4XUOjGLuk1gaqR9Pnfq3uFkCOfBNGu454kkDsNXH4/highest.mp4"
           autoPlay
           muted
           loop

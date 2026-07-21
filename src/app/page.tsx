@@ -35,7 +35,7 @@ export default async function Home() {
       {/* HERO */}
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
         <video
-          src="/uploads/klaxon-studio-home-loop-video-production.mp4"
+          src="https://stream.mux.com/lo8Id7IFlANcDmIDJwRu9qx1tHsaIg9LZFhF028Ydf1I/highest.mp4"
           autoPlay
           muted
           loop

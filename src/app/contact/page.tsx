@@ -135,7 +135,7 @@ export default function ContactPage() {
               </Button>
               <span className="font-mono font-medium text-[10px] tracking-[0.12em] uppercase text-[var(--text-muted)]">
                 {state === "error"
-                  ? "Something went wrong — please email us direct at hello@klaxon.studio"
+                  ? "Something went wrong. Please email us direct at hello@klaxon.studio"
                   : state === "sent"
                     ? "We'll reply within one working day"
                     : "Replies within one working day"}

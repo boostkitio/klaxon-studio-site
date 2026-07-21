@@ -51,7 +51,7 @@ export async function POST(req: Request) {
   }
 
   const resend = new Resend(apiKey);
-  const subject = `New enquiry — ${sanitiseHeader(data.name)}${data.company ? ` (${sanitiseHeader(data.company)})` : ""}`;
+  const subject = `New enquiry from ${sanitiseHeader(data.name)}${data.company ? ` (${sanitiseHeader(data.company)})` : ""}`;
 
   const result = await resend.emails.send({
     from,
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
       `Name: ${data.name}\n` +
       `Email: ${data.email}\n` +
       (data.company ? `Company: ${data.company}\n` : "") +
-      `\n${data.brief}\n\n—\nSent from the klaxon.studio contact form`,
+      `\n${data.brief}\n\n--\nSent from the klaxon.studio contact form`,
   });
 
   if (result.error) {

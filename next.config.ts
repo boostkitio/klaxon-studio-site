@@ -23,6 +23,27 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
+// Covers every third party the public site touches: GA4 (via
+// @next/third-parties, which injects an inline bootstrap script — hence
+// 'unsafe-inline' in script-src; Next's own hydration scripts need it too),
+// the Vimeo showreel player, Mux MP4 loops, Sanity's image CDN, and the
+// Google Business Profile map embed on /contact. The /studio route is
+// excluded below: Sanity Studio is a full SPA with its own third-party
+// surface, and a policy tight enough to be worth having breaks it.
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://player.vimeo.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://cdn.sanity.io https://i.vimeocdn.com https://*.googletagmanager.com https://*.google-analytics.com",
+  "font-src 'self'",
+  "media-src 'self' blob: https://stream.mux.com",
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stream.mux.com",
+  "frame-src https://player.vimeo.com https://www.google.com https://maps.google.com",
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
@@ -52,7 +73,15 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      // CSP everywhere except the Sanity Studio SPA (and its draft-mode
+      // machinery, which runs under the same /studio path prefix).
+      {
+        source: "/((?!studio).*)",
+        headers: [{ key: "Content-Security-Policy", value: csp }],
+      },
+    ];
   },
 };
 

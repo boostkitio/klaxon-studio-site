@@ -34,7 +34,7 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://player.vimeo.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://cdn.sanity.io https://i.vimeocdn.com https://*.googletagmanager.com https://*.google-analytics.com",
+  "img-src 'self' data: blob: https://cdn.sanity.io https://i.vimeocdn.com https://image.mux.com https://*.googletagmanager.com https://*.google-analytics.com",
   "font-src 'self'",
   "media-src 'self' blob: https://stream.mux.com",
   "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stream.mux.com",

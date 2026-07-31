@@ -1,4 +1,5 @@
 import { SITE_URL, SITE_NAME } from "./site";
+import { muxThumbnail } from "./mux";
 import type { Project, ServiceDetail, Faq } from "./content";
 
 /**
@@ -14,12 +15,6 @@ export const BUSINESS_ID = `${SITE_URL}/#business`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
 type Json = Record<string, unknown>;
-
-/** Mux playback IDs sit between the host and the filename in a stream URL. */
-function muxThumbnail(videoUrl: string): string | undefined {
-  const m = /stream\.mux\.com\/([^/]+)\//.exec(videoUrl);
-  return m ? `https://image.mux.com/${m[1]}/thumbnail.jpg` : undefined;
-}
 
 export function websiteSchema(): Json {
   return {

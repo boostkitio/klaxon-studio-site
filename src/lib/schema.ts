@@ -6,7 +6,7 @@ import type { Project, ServiceDetail, Faq } from "./content";
  * or the site points at these rather than restating the entity, so Google
  * resolves the whole site to one node graph instead of many loose objects.
  *
- * BUSINESS_ID is the ProfessionalService declared in the root layout — that
+ * BUSINESS_ID is the ProfessionalService declared in the root layout. That
  * block is the canonical entity and is tied to the Google Business Profile
  * via its hasMap CID.
  */
@@ -35,7 +35,7 @@ export function websiteSchema(): Json {
 
 /**
  * Declares the primary navigation in commercial priority order. This is a
- * hierarchy signal that feeds Google's sitelink selection — the legal pages
+ * hierarchy signal that feeds Google's sitelink selection. The legal pages
  * are deliberately excluded so they stop competing for a sitelink slot.
  */
 export function siteNavigationSchema(): Json {
@@ -61,7 +61,7 @@ export function siteNavigationSchema(): Json {
   };
 }
 
-/** trail excludes Home — that is prepended automatically. */
+/** trail excludes Home, which is prepended automatically. */
 export function breadcrumbSchema(trail: { name: string; path: string }[]): Json {
   const items = [{ name: "Home", path: "" }, ...trail];
   return {
@@ -111,7 +111,7 @@ export function videoObjectSchema(proj: Project): Json {
 
 /**
  * Takes plain primitives rather than the Sanity document so callers can
- * stegaClean the values first — stega-encoded characters are invisible in
+ * stegaClean the values first. Stega-encoded characters are invisible in
  * rendered text but would corrupt JSON-LD.
  */
 export function blogPostingSchema(post: {
@@ -156,7 +156,7 @@ export function serviceSchema(svc: ServiceDetail): Json {
       ? {
           hasOfferCatalog: {
             "@type": "OfferCatalog",
-            name: `${svc.title} — what's included`,
+            name: `${svc.title}: what's included`,
             itemListElement: svc.includes.map((item) => ({
               "@type": "Offer",
               itemOffered: { "@type": "Service", name: item },
@@ -170,7 +170,7 @@ export function serviceSchema(svc: ServiceDetail): Json {
 /**
  * The published starting-point prices. `price` is the floor of an open-ended
  * band, so these are declared as PriceSpecification minimums rather than a
- * fixed price — the page says "from £X+", and the markup must say the same.
+ * fixed price. The page says "from £X+", and the markup must say the same.
  */
 export function pricingSchema(
   tiers: { label: string; price: string; items: string[] }[]

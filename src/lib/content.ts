@@ -16,7 +16,7 @@ export interface Project {
   vimeoAr: string;
   vimeoNativeAr?: number;
   vimeoThumb?: string;
-  /** Vimeo publish timestamp (ISO 8601). Sourced from the Vimeo oEmbed API —
+  /** Vimeo publish timestamp (ISO 8601). Sourced from the Vimeo oEmbed API and
    * required by Google for VideoObject rich results. */
   uploadDate?: string;
   /** Runtime as an ISO 8601 duration, e.g. "PT2M18S". Also from Vimeo oEmbed. */

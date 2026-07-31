@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { sendGAEvent } from "@next/third-parties/google";
 import { Button } from "@/components/ui/Button";
 import { HighlightWipe } from "@/components/ScrollHighlight";
 import { contactRows } from "@/lib/content";
@@ -30,6 +31,16 @@ export default function ContactPage() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       form.reset();
       setState("sent");
+      // The form posts via fetch after preventDefault, so GA4's automatic
+      // form_submit never represents a completed enquiry. This is the only
+      // signal that a lead actually landed. Mark generate_lead as a key
+      // event in GA4 or conversions stay invisible. Never let an analytics
+      // failure surface as a failed submission: the email has already sent.
+      try {
+        sendGAEvent("event", "generate_lead", { form_name: "contact" });
+      } catch {
+        // Swallowed deliberately, see above.
+      }
     } catch {
       setState("error");
     }

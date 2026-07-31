@@ -1,5 +1,5 @@
 /**
- * Renders one or more JSON-LD blocks. Server component by design — the markup
+ * Renders one or more JSON-LD blocks. Server component by design, so the markup
  * ships in the static HTML so crawlers that do not execute JavaScript still
  * see it.
  */

@@ -1,13 +1,22 @@
 import Label from "@/components/ui/Label";
 import FaqAccordion from "@/components/FaqAccordion";
+import JsonLd from "@/components/JsonLd";
 import { faqsData } from "@/lib/content";
+import { faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 export const metadata = ogFor("FAQs", "Answers to the questions we are asked most about video production: process, budgets, timelines, deliverables and working with Klaxon Studio.", "/faqs");
 
 export default function FaqsPage() {
+  const allFaqs = faqsData.sections.flatMap((s) => s.qas);
   return (
     <main>
+      <JsonLd
+        data={[
+          faqPageSchema(allFaqs),
+          breadcrumbSchema([{ name: "FAQs", path: "/faqs" }]),
+        ]}
+      />
       <section className="pt-[clamp(72px,9vw,128px)] pb-[clamp(36px,4.5vw,56px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="mb-[clamp(24px,3vw,34px)]">

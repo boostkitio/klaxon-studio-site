@@ -5,6 +5,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { SITE_URL, OG_BASE } from "@/lib/site";
+import { websiteSchema, siteNavigationSchema } from "@/lib/schema";
+import JsonLd from "@/components/JsonLd";
 import ScrollToTop from "@/components/ScrollToTop";
 import DisableDraftMode from "@/components/DisableDraftMode";
 import Header from "@/components/Header";
@@ -87,10 +89,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen flex flex-col">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSONLD) }}
-        />
+        <JsonLd data={[LOCAL_BUSINESS_JSONLD, websiteSchema(), siteNavigationSchema()]} />
         <ScrollToTop />
         <Header />
         <div className="flex-1">{children}</div>

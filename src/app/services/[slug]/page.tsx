@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
+import JsonLd from "@/components/JsonLd";
 import { services, contentTypes } from "@/lib/content";
+import { serviceSchema, faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 const allServices = [...services, ...contentTypes];
@@ -31,6 +33,16 @@ export default async function ServiceDetailPage({
 
   return (
     <main>
+      <JsonLd
+        data={[
+          serviceSchema(svc),
+          ...(svc.faqs.length ? [faqPageSchema(svc.faqs)] : []),
+          breadcrumbSchema([
+            { name: "Services", path: "/services" },
+            { name: svc.title, path: `/services/${svc.slug}` },
+          ]),
+        ]}
+      />
       <section className="pt-[clamp(48px,6vw,84px)] pb-[clamp(28px,3.5vw,48px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <Link

@@ -2,7 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
+import { stegaClean } from "next-sanity";
 import ImageSlot from "@/components/ImageSlot";
+import JsonLd from "@/components/JsonLd";
+import { blogPostingSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -75,8 +78,28 @@ export default async function BlogPostPage({
   });
   if (!post) notFound();
 
+  const cleanTitle = stegaClean(post.title);
+
   return (
     <main>
+      <JsonLd
+        data={[
+          blogPostingSchema({
+            title: cleanTitle,
+            description: stegaClean(post.metaDesc) || stegaClean(post.lead),
+            slug: stegaClean(post.slug),
+            publishedAt: stegaClean(post.publishedAt),
+            author: stegaClean(post.author) || undefined,
+            imageUrl: post.mainImage
+              ? urlFor(post.mainImage).width(1200).height(630).url()
+              : undefined,
+          }),
+          breadcrumbSchema([
+            { name: "Blog", path: "/blog" },
+            { name: cleanTitle, path: `/blog/${stegaClean(post.slug)}` },
+          ]),
+        ]}
+      />
       <article className="pb-[clamp(64px,8vw,112px)]">
         <section className="bg-[var(--brand)] text-white pt-[clamp(48px,6vw,88px)] pb-[clamp(52px,6.5vw,96px)]">
           <div className="max-w-[1080px] mx-auto px-[clamp(20px,5vw,48px)]">

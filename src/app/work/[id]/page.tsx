@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
+import JsonLd from "@/components/JsonLd";
 import { workAll } from "@/lib/content";
+import { videoObjectSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -28,6 +30,15 @@ export default async function ProjectDetailPage({
 
   return (
     <main>
+      <JsonLd
+        data={[
+          videoObjectSchema(proj),
+          breadcrumbSchema([
+            { name: "Work", path: "/work" },
+            { name: `${proj.client}: ${proj.title}`, path: `/work/${proj.id}` },
+          ]),
+        ]}
+      />
       <section className="pt-[clamp(48px,6vw,84px)] pb-[clamp(28px,3.4vw,40px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <Link

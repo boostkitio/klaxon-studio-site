@@ -1,9 +1,26 @@
 import Label from "@/components/ui/Label";
 import FaqAccordion from "@/components/FaqAccordion";
+import JsonLd from "@/components/JsonLd";
 import { pricingFaqItems } from "@/lib/content";
+import { pricingSchema, faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 export const metadata = ogFor("Pricing", "Honest guidance on video production pricing: day rates, typical project bands and what shapes the cost of a production.", "/pricing");
+
+/** Single source of truth for the tiers: rendered below and marked up as
+ * Offers, so the SERP price can never drift from the page price. */
+const tiers = [
+  {
+    label: "Starting point",
+    price: "£4,500",
+    items: ["Single shoot day", "One location", "Small crew", "One edited 1-2 minute film", "Social cutdowns, versioned for your channels"],
+  },
+  {
+    label: "Crew & kit only",
+    price: "£2,000",
+    items: ["Single shoot day", "Van-load of equipment", "Raw footage handed over at the end of the day"],
+  },
+];
 
 const costDrivers = [
   { num: "01", title: "Crew size", desc: "A simple interview needs two people. A large commercial might need fifteen or more. Crew size is driven by the brief, and the right crew for the job is always the most efficient one. Under-crewing a shoot tends to cost a project more than the cost saving on the day." },
@@ -17,6 +34,13 @@ const costDrivers = [
 export default function PricingPage() {
   return (
     <main>
+      <JsonLd
+        data={[
+          pricingSchema(tiers),
+          faqPageSchema(pricingFaqItems),
+          breadcrumbSchema([{ name: "Pricing", path: "/pricing" }]),
+        ]}
+      />
       <section className="bg-[var(--brand)] text-white pt-[clamp(64px,8vw,112px)] pb-[clamp(40px,5vw,64px)]">
         <div
           className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] grid gap-[clamp(32px,4vw,64px)] items-end"
@@ -41,18 +65,7 @@ export default function PricingPage() {
       <section className="pt-[clamp(48px,6vw,88px)] pb-[clamp(28px,3.4vw,52px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[clamp(24px,3vw,40px)]">
-            {[
-              {
-                label: "Starting point",
-                price: "£4,500",
-                items: ["Single shoot day", "One location", "Small crew", "One edited 1-2 minute film", "Social cutdowns, versioned for your channels"],
-              },
-              {
-                label: "Crew & kit only",
-                price: "£2,000",
-                items: ["Single shoot day", "Van-load of equipment", "Raw footage handed over at the end of the day"],
-              },
-            ].map((tier) => (
+            {tiers.map((tier) => (
               <div key={tier.label} className="border border-[var(--brand)] bg-white p-[clamp(28px,3.4vw,44px)] flex flex-col gap-[clamp(18px,2.2vw,26px)]">
                 <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)]">
                   <span className="w-[4px] h-[1em] bg-[var(--brand)]" />

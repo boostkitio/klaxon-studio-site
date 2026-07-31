@@ -44,3 +44,6 @@ next-env.d.ts
 
 # keep the env template tracked
 !.env.example
+
+# marketing deliverables (not for deploy)
+/docs/marketing/

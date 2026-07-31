@@ -6,12 +6,15 @@ import ImageSlot from "@/components/ImageSlot";
 import { HighlightSweep, HighlightWipe } from "@/components/ScrollHighlight";
 import { founders } from "@/lib/content";
 
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 export default function AboutPage() {
   const [open, setOpen] = useState(-1);
   const cols = founders.map((_, i) => (open === -1 ? "1fr" : open === i ? "4fr" : "1fr")).join(" ");
 
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "About", path: "/about" }])} />
       <section className="bg-[var(--brand)] pt-[clamp(64px,8vw,112px)] pb-[clamp(28px,3.5vw,48px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="mb-[clamp(24px,3vw,32px)] text-white">

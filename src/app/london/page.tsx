@@ -3,8 +3,10 @@ import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
 import { HighlightSweep } from "@/components/ScrollHighlight";
+import JsonLd from "@/components/JsonLd";
 import { londonData } from "@/lib/content";
 import { muxThumbnail } from "@/lib/mux";
+import { faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 const HERO_VIDEO =
@@ -25,6 +27,12 @@ export const metadata = ogFor(
 export default function LondonPage() {
   return (
     <main>
+      <JsonLd
+        data={[
+          faqPageSchema(londonData.faqs),
+          breadcrumbSchema([{ name: "London", path: "/london" }]),
+        ]}
+      />
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(560px,82vh,820px)] -mt-[85px] flex items-end overflow-hidden">
         <video
           src={HERO_VIDEO}

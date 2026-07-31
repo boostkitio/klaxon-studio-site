@@ -7,12 +7,15 @@ import ProjectMedia from "@/components/ProjectMedia";
 import { HighlightWipe } from "@/components/ScrollHighlight";
 import { workAll, filterNames } from "@/lib/content";
 
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 export default function WorkPage() {
   const [filter, setFilter] = useState("All");
   const filtered = filter === "All" ? workAll : workAll.filter((w) => w.cat.includes(filter));
 
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Work", path: "/work" }])} />
       <section className="bg-[var(--brand)] text-white pt-[clamp(64px,8vw,112px)] pb-[clamp(32px,4vw,48px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="mb-[clamp(20px,3vw,28px)] text-white/80">

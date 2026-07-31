@@ -6,6 +6,8 @@ import Label from "@/components/ui/Label";
 import ImageSlot from "@/components/ImageSlot";
 import { services, contentTypes, type ServiceDetail } from "@/lib/content";
 
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 function CtaTile({ href, label }: { href: string; label: string }) {
   return (
     <Link
@@ -109,6 +111,7 @@ function ServiceTileGrid({ items, trailingTile }: { items: ServiceDetail[]; trai
 export default function ServicesPage() {
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }])} />
       <section className="bg-[var(--brand)] text-white pt-[clamp(64px,8vw,112px)] pb-[clamp(40px,5vw,64px)]">
         <div
           className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] grid gap-[clamp(32px,4vw,64px)] items-end"

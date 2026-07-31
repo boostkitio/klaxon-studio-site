@@ -1,3 +1,5 @@
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 export const metadata = ogFor(
@@ -7,5 +9,10 @@ export const metadata = ogFor(
 );
 
 export default function ContactLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <JsonLd data={breadcrumbSchema([{ name: "Contact", path: "/contact" }])} />
+      {children}
+    </>
+  );
 }

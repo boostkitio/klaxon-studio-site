@@ -6,6 +6,8 @@ import { POSTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import type { SanityImageSource } from "@sanity/image-url";
 
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 export const metadata = ogFor("Blog", "Straight-talking articles on video production from the Klaxon Studio team: budgets, briefs, formats and how to get more from your content.", "/blog");
 
 type PostCard = {
@@ -24,6 +26,7 @@ export default async function BlogIndexPage() {
 
   return (
     <main>
+      <JsonLd data={breadcrumbSchema([{ name: "Blog", path: "/blog" }])} />
       <section className="bg-[var(--brand)] text-white pt-[clamp(72px,9vw,128px)] pb-[clamp(40px,5vw,64px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <span className="inline-flex items-center gap-[11px] font-mono font-medium text-[12px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,34px)]">

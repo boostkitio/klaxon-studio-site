@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 import JsonLd from "@/components/JsonLd";
+import VideoEmbed from "@/components/VideoEmbed";
 import { workAll } from "@/lib/content";
+import { muxThumbnail } from "@/lib/mux";
 import { videoObjectSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
@@ -66,12 +68,10 @@ export default async function ProjectDetailPage({
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="relative w-full aspect-video overflow-hidden bg-black">
             {proj.vimeo ? (
-              <iframe
+              <VideoEmbed
                 src={vimeoSrc}
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                title={proj.client}
-                className="absolute inset-0 w-full h-full border-none"
+                poster={proj.vimeoThumb ?? muxThumbnail(proj.video, 1280)}
+                title={`${proj.client}: ${proj.title}`}
               />
             ) : (
               <video src={proj.video} controls playsInline className="absolute inset-0 w-full h-full object-contain bg-black" />

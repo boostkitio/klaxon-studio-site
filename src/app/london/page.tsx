@@ -4,16 +4,31 @@ import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
 import { HighlightSweep } from "@/components/ScrollHighlight";
 import { londonData } from "@/lib/content";
+import { muxThumbnail } from "@/lib/mux";
 import { ogFor } from "@/lib/site";
 
-export const metadata = ogFor("Video Production Company London", "Klaxon Studio is a video production company in Bermondsey, London, producing brand films, corporate video and social content across the city.", "/london");
+const HERO_VIDEO =
+  "https://stream.mux.com/2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw/720p.mp4";
+
+/**
+ * Deliberately NOT titled "Video Production Company London": the homepage
+ * already targets that term and ranks far better for it (position 7 against
+ * this page's 23), so competing head-on just split the signal between two
+ * pages. This page owns the local and borough-level intent instead.
+ */
+export const metadata = ogFor(
+  "Video Production in South London & Bermondsey",
+  "Klaxon Studio is a video production company based in Bermondsey, SE16, filming brand films, corporate video and social content across South London and the rest of the city.",
+  "/london"
+);
 
 export default function LondonPage() {
   return (
     <main>
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(560px,82vh,820px)] -mt-[85px] flex items-end overflow-hidden">
         <video
-          src="https://stream.mux.com/2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw/720p.mp4"
+          src={HERO_VIDEO}
+          poster={muxThumbnail(HERO_VIDEO, 1600)}
           autoPlay
           muted
           loop

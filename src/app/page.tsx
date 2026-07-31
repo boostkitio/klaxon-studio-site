@@ -8,6 +8,10 @@ import Tag from "@/components/ui/Tag";
 import Testimonials from "@/components/Testimonials";
 import ProjectMedia from "@/components/ProjectMedia";
 import ImageSlot from "@/components/ImageSlot";
+import { muxThumbnail } from "@/lib/mux";
+
+const HERO_VIDEO =
+  "https://stream.mux.com/Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro/720p.mp4";
 
 const HOME_TITLE = "Klaxon Studio | Video Production Company London";
 export const metadata = {
@@ -34,8 +38,12 @@ export default async function Home() {
     <main>
       {/* HERO */}
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
+        {/* The loop is 3.5MB and Mux only publishes the 720p rendition, so the
+            poster is what the visitor actually sees first. Without it the hero
+            sits flat black until enough video has buffered to paint a frame. */}
         <video
-          src="https://stream.mux.com/Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro/720p.mp4"
+          src={HERO_VIDEO}
+          poster={muxThumbnail(HERO_VIDEO, 1600)}
           autoPlay
           muted
           loop

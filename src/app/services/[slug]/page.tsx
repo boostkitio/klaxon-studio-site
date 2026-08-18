@@ -4,9 +4,13 @@ import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
 import JsonLd from "@/components/JsonLd";
+import RelatedLinks from "@/components/RelatedLinks";
 import { services, contentTypes } from "@/lib/content";
+import { relatedServicesFor, relatedProjectsFor, relatedPostSlugsFor } from "@/lib/related";
 import { serviceSchema, faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { POST_TITLES_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 const allServices = [...services, ...contentTypes];
 const kindFor = (slug: string) => (services.some((s) => s.slug === slug) ? "Production" : "Content");
@@ -30,6 +34,21 @@ export default async function ServiceDetailPage({
   const { slug } = await params;
   const svc = allServices.find((s) => s.slug === slug);
   if (!svc) notFound();
+
+  const postSlugs = relatedPostSlugsFor(svc.slug);
+  // Sanity returns these in document order, so re-sort into the curated order
+  // from related.ts. A slug that no longer resolves (post unpublished in the
+  // Studio) simply drops out rather than rendering a dead link.
+  const fetched = postSlugs.length
+    ? await sanityFetch<{ slug: string; title: string }[]>({
+        query: POST_TITLES_BY_SLUGS_QUERY,
+        params: { slugs: postSlugs },
+        tags: ["post"],
+      })
+    : [];
+  const relatedPosts = postSlugs
+    .map((s) => fetched.find((p) => p.slug === s))
+    .filter((p): p is { slug: string; title: string } => Boolean(p));
 
   return (
     <main>
@@ -106,6 +125,12 @@ export default async function ServiceDetailPage({
           </div>
         </div>
       </section>
+
+      <RelatedLinks
+        projects={relatedProjectsFor(svc.slug)}
+        services={relatedServicesFor(svc.slug)}
+        posts={relatedPosts}
+      />
 
       <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(32px,4vw,56px)] pb-[clamp(56px,7vw,96px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">

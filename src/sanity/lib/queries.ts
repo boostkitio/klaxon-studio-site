@@ -39,3 +39,11 @@ export const CLIENT_LOGOS_QUERY = defineQuery(`
     scale
   }
 `);
+
+/** Titles for a known set of post slugs — used by the service pages' related-reading block. */
+export const POST_TITLES_BY_SLUGS_QUERY = defineQuery(`
+  *[_type == "post" && slug.current in $slugs]{
+    title,
+    "slug": slug.current
+  }
+`);

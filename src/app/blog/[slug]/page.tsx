@@ -6,6 +6,7 @@ import { stegaClean } from "next-sanity";
 import ImageSlot from "@/components/ImageSlot";
 import JsonLd from "@/components/JsonLd";
 import { blogPostingSchema, breadcrumbSchema } from "@/lib/schema";
+import { servicesForPost } from "@/lib/related";
 import { ogFor } from "@/lib/site";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -79,6 +80,9 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const cleanTitle = stegaClean(post.title);
+  // Keyed off the route slug rather than post.slug: in draft mode post.slug
+  // carries stega markers, which would never match the plain map keys.
+  const relatedServices = servicesForPost(slug);
 
   return (
     <main>
@@ -143,6 +147,33 @@ export default async function BlogPostPage({
         <div className="max-w-[820px] mx-auto mt-[clamp(44px,5.5vw,72px)] px-[clamp(20px,5vw,48px)] flex flex-col gap-[clamp(20px,2.4vw,28px)]">
           <PortableText value={post.body} components={portableComponents} />
         </div>
+
+        {relatedServices.length > 0 && (
+          <div className="max-w-[820px] mx-auto mt-[clamp(48px,6vw,80px)] px-[clamp(20px,5vw,48px)]">
+            <div className="border-t border-[var(--border-subtle)] pt-[clamp(32px,4vw,48px)]">
+              <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(18px,2.2vw,26px)]">
+                <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
+                How we can help
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-[clamp(20px,3vw,32px)]">
+                {relatedServices.map((svc) => (
+                  <Link
+                    key={svc.slug}
+                    href={svc.href}
+                    className="group block border-t border-[var(--border-subtle)] py-[15px] transition-colors hover:border-[var(--brand)]"
+                  >
+                    <span className="block font-display font-[var(--kx-dw,700)] text-[clamp(15px,1.5vw,18px)] leading-[1.2] tracking-[-0.02em] transition-colors group-hover:text-[var(--brand)]">
+                      {svc.title}
+                    </span>
+                    <span className="block mt-[6px] font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-[var(--text-muted)]">
+                      {svc.desc}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="max-w-[820px] mx-auto mt-[clamp(48px,6vw,80px)] px-[clamp(20px,5vw,48px)]">
           <div className="border-t border-[var(--border-subtle)] pt-[clamp(32px,4vw,48px)]">

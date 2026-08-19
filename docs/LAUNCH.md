@@ -1,6 +1,6 @@
 # Launch Runbook: klaxon.studio Cutover
 
-The new site is live on Vercel (project `klaxon-studio-site`, boostkit team). This is everything
+The new site is live on Vercel (project `klaxon-studio`, boostkit team). This is everything
 left to do to point klaxon.studio at it and retire the old WordPress site.
 
 ## 1. DNS Cutover — done 2026-07-15

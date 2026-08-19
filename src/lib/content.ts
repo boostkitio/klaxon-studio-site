@@ -178,6 +178,14 @@ export const moreLinks: NavItem[] = [
   { label: "FAQs", href: "/faqs" },
   { label: "Sustainability", href: "/sustainability" },
   { label: "Glossary", href: "/glossary" },
+];
+
+// Legal pages are deliberately kept out of `moreLinks` and the footer's
+// content columns. Sitting them alongside London/FAQs/Glossary gave them
+// the same internal link prominence as commercial pages, which is part of
+// why Google was picking Privacy Policy as a brand-query sitelink over
+// Work. They render in the de-emphasised footer base bar instead.
+export const legalLinks: NavItem[] = [
   { label: "T&C's", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy-policy" },
 ];
@@ -694,8 +702,6 @@ export const footerCols: FooterCol[] = [
     { label: "FAQs", href: "/faqs" },
     { label: "Glossary", href: "/glossary" },
     { label: "Sustainability", href: "/sustainability" },
-    { label: "T&C's", href: "/terms" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
   ] },
   { title: "Services", links: [
     { label: "Ideation & Creative", href: "/services/ideation" },

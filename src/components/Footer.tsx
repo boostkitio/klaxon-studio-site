@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
-import { footerCols } from "@/lib/content";
+import { footerCols, legalLinks } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/Button";
 
 export default function Footer() {
@@ -73,8 +73,22 @@ export default function Footer() {
               </div>
             ))}
           </div>
-          <div className="flex flex-wrap gap-4 justify-between pt-6 font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-white/40">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 justify-between pt-6 font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-white/40">
             <span>© 2026 Klaxon Studio Ltd</span>
+            {/* Legal links live here rather than in the content columns
+                above, so they carry less internal link weight than the
+                commercial pages competing for brand-query sitelinks. */}
+            <div className="flex flex-wrap gap-x-6 gap-y-3">
+              {legalLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="hover:text-white/70 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
             <span>Bermondsey · London</span>
           </div>
         </div>

@@ -40,10 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
-
 # keep the env template tracked
 !.env.example
 
 # marketing deliverables (not for deploy)
 /docs/marketing/
+
+# browser automation scratch output
+/.playwright-mcp/

@@ -45,9 +45,13 @@ const csp = [
 
 // The one directive Studio does need. The Sanity dashboard embeds the
 // self-hosted Studio in an iframe, so sanity.io has to be an allowed frame
-// ancestor. X-Frame-Options is deliberately absent from these routes: it has
-// no syntax for a third-party origin, and browsers that still honour it would
-// veto frame-ancestors.
+// ancestor.
+//
+// Clickjacking protection is CSP frame-ancestors throughout - see the "self"
+// entry in the site policy above - and X-Frame-Options is deliberately absent
+// site-wide. It cannot name a third-party origin, browsers that honour it
+// would override frame-ancestors, and the Sanity dashboard refuses to embed a
+// studio whose host sends it at all, root included.
 const studioCsp = "frame-ancestors 'self' https://www.sanity.io https://sanity.io";
 
 const nextConfig: NextConfig = {
@@ -81,15 +85,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/(.*)", headers: securityHeaders },
-      // Full CSP and clickjacking protection everywhere except the Sanity
-      // Studio SPA (and its draft-mode machinery, which runs under the same
-      // /studio path prefix).
+      // Full CSP everywhere except the Sanity Studio SPA (and its draft-mode
+      // machinery, which runs under the same /studio path prefix).
       {
         source: "/((?!studio).*)",
-        headers: [
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "Content-Security-Policy", value: csp },
-        ],
+        headers: [{ key: "Content-Security-Policy", value: csp }],
       },
       { source: "/studio", headers: [{ key: "Content-Security-Policy", value: studioCsp }] },
       { source: "/studio/:path*", headers: [{ key: "Content-Security-Policy", value: studioCsp }] },

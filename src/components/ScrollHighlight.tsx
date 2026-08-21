@@ -19,21 +19,45 @@ function useHighlightProgress(trigger: "page" | "element") {
   const ref = useRef<HTMLSpanElement>(null);
   const [progress, setProgress] = useState(0);
 
+  // Driven by scroll/resize rather than a self-perpetuating rAF loop. The
+  // loop measured (and for trigger="element", forced layout via
+  // getBoundingClientRect) on every frame for the life of the page, whether
+  // or not anything had moved.
   useEffect(() => {
     let raf = 0;
-    const tick = () => {
+    let queued = false;
+
+    const measure = () => {
+      queued = false;
       const vh = window.innerHeight || 800;
+      let next: number;
       if (trigger === "page") {
         const y = window.scrollY || window.pageYOffset || 0;
-        setProgress(clamp01(y / (vh * 0.08)));
+        next = clamp01(y / (vh * 0.08));
       } else if (ref.current) {
         const rect = ref.current.getBoundingClientRect();
-        setProgress(clamp01((vh * 0.92 - rect.top) / (vh * 0.42)));
+        next = clamp01((vh * 0.92 - rect.top) / (vh * 0.42));
+      } else {
+        return;
       }
-      raf = requestAnimationFrame(tick);
+      // Bail out of the re-render when the value has not meaningfully moved.
+      setProgress((prev) => (Math.abs(prev - next) < 0.001 ? prev : next));
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    const schedule = () => {
+      if (queued) return;
+      queued = true;
+      raf = requestAnimationFrame(measure);
+    };
+
+    measure();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      cancelAnimationFrame(raf);
+    };
   }, [trigger]);
 
   return { ref, progress };
@@ -63,7 +87,6 @@ export function HighlightSweep({
         backgroundRepeat: "no-repeat",
         backgroundPosition: "0 50%",
         backgroundSize: `${(progress * 100).toFixed(1)}% 1em`,
-        transition: "background-size .14s linear",
         padding: "0 0.04em",
         WebkitBoxDecorationBreak: "clone",
         boxDecorationBreak: "clone",
@@ -105,7 +128,6 @@ export function HighlightWipe({
           backgroundRepeat: "no-repeat",
           backgroundPosition: "0 0",
           backgroundSize: `${pct} 100%`,
-          transition: "background-size .14s linear",
         }}
       >
         {children}
@@ -121,7 +143,6 @@ export function HighlightWipe({
           overflow: "hidden",
           whiteSpace: "nowrap",
           color: to,
-          transition: "width .14s linear",
           pointerEvents: "none",
         }}
       >

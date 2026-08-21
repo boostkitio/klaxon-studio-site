@@ -61,7 +61,7 @@ export default async function Home() {
             <Label tone="on-dark">Klaxon Studio, Bermondsey, London</Label>
           </div>
           <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,5.04vw,65px)] leading-[0.97] tracking-[-0.04em] max-w-[15ch] text-white">
-            Hello Video production that{" "}
+            Video production that{" "}
             <HighlightSweep bg="var(--brand)" color="#fff" trigger="page">
               demands attention.
             </HighlightSweep>

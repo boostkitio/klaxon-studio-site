@@ -82,7 +82,7 @@ export default function LondonPage() {
         <a
           href="#showreel"
           aria-label="Scroll to showreel"
-          className="absolute left-1/2 bottom-[clamp(18px,2.4vw,28px)] -translate-x-1/2 z-10 text-white/70 hover:text-white transition-colors animate-bounce"
+          className="absolute left-1/2 bottom-[clamp(18px,2.4vw,28px)] -translate-x-1/2 z-10 text-white/70 hover:text-white transition-colors motion-safe:animate-bounce"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 4v15" />

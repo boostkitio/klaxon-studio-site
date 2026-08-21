@@ -34,6 +34,7 @@ export default function CountUp({
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (typeof IntersectionObserver === "undefined") return;
 
     const format = (n: number) => prefix + Math.round(n).toLocaleString("en-GB") + suffix;
     let raf = 0;
@@ -79,9 +80,19 @@ export default function CountUp({
     };
   }, [animatable, prefix, suffix, target, durationMs, value]);
 
+  // A hidden copy of the final figure holds the width open. Without it the
+  // span collapses to "£0" as the climb starts and shoves the adjacent "+"
+  // and "exc VAT" across, which is a layout shift on every visit.
   return (
-    <span ref={ref} className={className}>
-      {display}
+    <span
+      ref={ref}
+      className={className}
+      style={{ display: "inline-grid", fontVariantNumeric: "tabular-nums" }}
+    >
+      <span aria-hidden style={{ gridArea: "1 / 1", visibility: "hidden" }}>
+        {value}
+      </span>
+      <span style={{ gridArea: "1 / 1" }}>{display}</span>
     </span>
   );
 }

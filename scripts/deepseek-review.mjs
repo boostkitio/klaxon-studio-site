@@ -5,8 +5,9 @@
 // file (AGENTS.md / CLAUDE.md / CODEBUDDY.md) and reviews generically.
 //
 // Env: OPENROUTER_API_KEY (required), PR_NUMBER (required), GH_TOKEN (required).
-import { execSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 
 const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1'
@@ -34,7 +35,7 @@ function readConventions() {
 }
 const conventions = readConventions()
 
-const diff = execSync('gh pr diff ' + prNumber, { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 })
+const diff = execFileSync('gh', ['pr', 'diff', prNumber], { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 })
 
 if (!diff.trim()) {
   console.log('No diff to review')
@@ -88,5 +89,9 @@ if (!review) {
   process.exit(1)
 }
 
-execSync('gh pr comment ' + prNumber + ' --body ' + JSON.stringify(review), { stdio: 'inherit' })
+// Passed via a file, not an argument: a review is markdown full of backticks,
+// and reviews long enough to matter blow past the argv size limit.
+const bodyFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'deepseek-review-')), 'review.md')
+fs.writeFileSync(bodyFile, review)
+execFileSync('gh', ['pr', 'comment', prNumber, '--body-file', bodyFile], { stdio: 'inherit' })
 console.log('DeepSeek review posted to PR ' + prNumber)

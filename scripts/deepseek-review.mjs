@@ -91,7 +91,12 @@ if (!review) {
 
 // Passed via a file, not an argument: a review is markdown full of backticks,
 // and reviews long enough to matter blow past the argv size limit.
-const bodyFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'deepseek-review-')), 'review.md')
-fs.writeFileSync(bodyFile, review)
-execFileSync('gh', ['pr', 'comment', prNumber, '--body-file', bodyFile], { stdio: 'inherit' })
+const bodyDir = fs.mkdtempSync(path.join(os.tmpdir(), 'deepseek-review-'))
+try {
+  const bodyFile = path.join(bodyDir, 'review.md')
+  fs.writeFileSync(bodyFile, review)
+  execFileSync('gh', ['pr', 'comment', prNumber, '--body-file', bodyFile], { stdio: 'inherit' })
+} finally {
+  fs.rmSync(bodyDir, { recursive: true, force: true })
+}
 console.log('DeepSeek review posted to PR ' + prNumber)

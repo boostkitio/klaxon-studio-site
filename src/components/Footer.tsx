@@ -51,6 +51,17 @@ export default function Footer() {
                   hello@klaxon.studio
                 </a>
               </div>
+              <div className="mt-[14px]">
+                <span className="font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-white/50">
+                  Phone
+                </span>
+                <a
+                  href="tel:+442080580669"
+                  className="block mt-[4px] text-[14px] leading-[1.6] text-white/70 max-w-[30ch] hover:text-[var(--brand)] transition-colors"
+                >
+                  +44 (0) 208 0580 669
+                </a>
+              </div>
             </div>
             {footerCols.map((col) => (
               <div key={col.title}>

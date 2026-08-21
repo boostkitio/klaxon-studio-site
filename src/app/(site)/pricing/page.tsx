@@ -1,6 +1,7 @@
 import Label from "@/components/ui/Label";
 import FaqAccordion from "@/components/FaqAccordion";
 import JsonLd from "@/components/JsonLd";
+import CountUp from "@/components/CountUp";
 import { pricingFaqItems } from "@/lib/content";
 import { pricingSchema, faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
@@ -51,7 +52,7 @@ export default function PricingPage() {
               <Label tone="on-brand">Pricing</Label>
             </div>
             <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[0.98] tracking-[-0.04em] text-white">
-              What films cost<span className="text-white">.</span>
+              So, what does video production cost<span className="text-white">?</span>
             </h1>
           </div>
           <p className="text-[clamp(14px,1.3vw,15px)] leading-[1.6] text-white/85 max-w-[46ch]">
@@ -75,7 +76,7 @@ export default function PricingPage() {
                   <span className="font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-[var(--text-muted)]">From</span>
                   <span className="flex items-baseline gap-[14px] flex-wrap">
                     <span className="font-display font-[var(--kx-dw,700)] text-[clamp(44px,5.6vw,72px)] leading-[0.86] tracking-[-0.045em] text-[var(--text-primary)]">
-                      {tier.price}<span className="text-[var(--brand)]">+</span>
+                      <CountUp value={tier.price} /><span className="text-[var(--brand)]">+</span>
                     </span>
                     <span className="font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-muted)]">exc VAT</span>
                   </span>

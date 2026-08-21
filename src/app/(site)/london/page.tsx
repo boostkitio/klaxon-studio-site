@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Script from "next/script";
 import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
+import Testimonials from "@/components/Testimonials";
 import { HighlightSweep } from "@/components/ScrollHighlight";
 import JsonLd from "@/components/JsonLd";
 import { londonData } from "@/lib/content";
@@ -33,7 +35,7 @@ export default function LondonPage() {
           breadcrumbSchema([{ name: "London", path: "/london" }]),
         ]}
       />
-      <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(560px,82vh,820px)] -mt-[85px] flex items-end overflow-hidden">
+      <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
         <video
           src={HERO_VIDEO}
           poster={muxThumbnail(HERO_VIDEO, 1600)}
@@ -41,11 +43,13 @@ export default function LondonPage() {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-55"
+          className="absolute inset-0 w-full h-full object-cover opacity-90"
         />
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(180deg, rgba(26,26,26,0.35) 0%, rgba(26,26,26,0.2) 45%, rgba(26,26,26,0.9) 100%)" }}
+          style={{
+            background: "linear-gradient(180deg, rgba(26,26,26,0.1) 0%, rgba(26,26,26,0.04) 45%, rgba(26,26,26,0.65) 88%, rgba(26,26,26,1) 100%)",
+          }}
         />
         <div className="relative max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] pt-[clamp(40px,7vw,96px)] pb-[clamp(40px,7vw,96px)] w-full">
           <div className="mb-[clamp(20px,3vw,34px)] text-white/78">
@@ -61,7 +65,7 @@ export default function LondonPage() {
             {londonData.lead}
           </p>
           <div className="flex flex-wrap gap-[14px] mt-[clamp(28px,4vw,40px)]">
-            <ButtonLink href="/work" variant="light" icon={false}>
+            <ButtonLink href="#showreel" variant="light" icon={false}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6 4l14 8-14 8z" />
               </svg>
@@ -75,9 +79,38 @@ export default function LondonPage() {
             </ButtonLink>
           </div>
         </div>
+        <a
+          href="#showreel"
+          aria-label="Scroll to showreel"
+          className="absolute left-1/2 bottom-[clamp(18px,2.4vw,28px)] -translate-x-1/2 z-10 text-white/70 hover:text-white transition-colors motion-safe:animate-bounce"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 4v15" />
+            <path d="M5 12l7 7 7-7" />
+          </svg>
+        </a>
       </section>
 
-      <section className="pt-[clamp(64px,8vw,112px)] pb-[clamp(40px,5vw,64px)]">
+      {/* SHOWREEL */}
+      <section id="showreel" className="bg-[#1A1A1A] text-white py-[clamp(52px,7vw,96px)] scroll-mt-[84px]">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
+          <div className="relative overflow-hidden bg-black" style={{ paddingTop: "41.67%" }}>
+            <iframe
+              src="https://player.vimeo.com/video/1208364199?h=c08e30fd3a&badge=0&autopause=0&player_id=0&app_id=58479"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="Klaxon-Showreel-Master-24-LR"
+              className="absolute inset-0 w-full h-full border-none"
+            />
+            <span className="absolute left-[clamp(16px,2.4vw,28px)] top-[clamp(16px,2.4vw,28px)] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
+              Klaxon Showreel &apos;26
+            </span>
+          </div>
+        </div>
+      </section>
+      <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
+
+      <section className="pt-[clamp(48px,7vw,96px)] pb-[clamp(40px,5vw,64px)]">
         <div
           className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] grid gap-[clamp(40px,5vw,72px)] items-start"
           style={{ gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))" }}
@@ -121,6 +154,8 @@ export default function LondonPage() {
           <FaqAccordion items={londonData.faqs} />
         </div>
       </section>
+
+      <Testimonials />
     </main>
   );
 }

@@ -175,6 +175,7 @@ export const navItems: NavItem[] = [
 
 export const moreLinks: NavItem[] = [
   { label: "London", href: "/london" },
+  { label: "Contact", href: "/contact" },
   { label: "FAQs", href: "/faqs" },
   { label: "Sustainability", href: "/sustainability" },
   { label: "Glossary", href: "/glossary" },
